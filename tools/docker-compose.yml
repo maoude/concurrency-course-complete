@@ -1,11 +1,15 @@
 services:
   dev:
-    build:
-      context: ../.devcontainer
-      dockerfile: Dockerfile
+    user: vscode
+    environment:
+      GRADLE_USER_HOME: /home/vscode/.gradle
     volumes:
       - ../:/workspace:cached
-    working_dir: /workspace
-    tty: true
-    stdin_open: true
-    command: sleep infinity
+      - gradle-cache:/home/vscode/.gradle
+
+volumes:
+  gradle-cache:
+
+
+
+
