@@ -1,3 +1,3 @@
-﻿* text=auto eol=lf
-*.sh text eol=lf
-*.bat text eol=crlf
+# Force LF in Linux scripts (prevents /bin/sh^M errors)
+**/gradlew text eol=lf
+**/*.sh  text eol=lf
