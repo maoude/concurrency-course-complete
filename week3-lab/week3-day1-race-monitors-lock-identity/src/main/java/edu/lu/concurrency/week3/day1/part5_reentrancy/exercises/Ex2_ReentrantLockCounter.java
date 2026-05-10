@@ -2,6 +2,8 @@
  * ================================================================
  * Author: Dr. Mohamad Aoude
  * Course: Concurrency & Distributed Systems
+ * Week: Week 3
+ * Lab Title: Day 1 - Race, Monitors, and Lock Identity
  * Week 3 – Locks, Monitors & Reentrancy
  * ================================================================
  * EXERCISE W3.P5.Ex2 — Rewrite SafeCounter using ReentrantLock
@@ -33,20 +35,24 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Ex2_ReentrantLockCounter {
 
-    // TODO 1: private final ReentrantLock lock = new ReentrantLock();
+    private final ReentrantLock lock = new ReentrantLock();
     private int count = 0;
 
     public void increment() {
-        // TODO 2: lock.lock();
-        //         try   { count++; }
-        //         finally { lock.unlock(); }
-        throw new UnsupportedOperationException("TODO – implement increment");
+        lock.lock();
+        try {
+            count++;
+        } finally {
+            lock.unlock();
+        }
     }
 
     public int getCount() {
-        // TODO 3: lock.lock();
-        //         try   { return count; }
-        //         finally { lock.unlock(); }
-        throw new UnsupportedOperationException("TODO – implement getCount");
+        lock.lock();
+        try {
+            return count;
+        } finally {
+            lock.unlock();
+        }
     }
 }

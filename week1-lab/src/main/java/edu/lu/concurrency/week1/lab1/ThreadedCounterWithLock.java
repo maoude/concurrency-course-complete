@@ -1,9 +1,19 @@
+/*
+ * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 1
+ * Lab Title: Lab 1 - Foundations and Amdahl Performance Modeling
+ * ================================================================
+ */
+
 package edu.lu.concurrency.week1.lab1;
 
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ThreadedCounterWithLock {
 
+    // Single lock protects `counter` from lost updates.
     private static final ReentrantLock lock = new ReentrantLock();
     private static long counter = 0;
 
@@ -19,10 +29,12 @@ public class ThreadedCounterWithLock {
         for (int i = 0; i < threads; i++) {
             workers[i] = new Thread(() -> {
                 for (int j = 0; j < incrementsPerThread; j++) {
+                    // Critical section: only one thread may increment at a time.
                     lock.lock();
                     try {
                         counter++;
                     } finally {
+                        // Always unlock in finally to avoid deadlock on exceptions.
                         lock.unlock();
                     }
                 }
@@ -35,6 +47,7 @@ public class ThreadedCounterWithLock {
         long end = System.nanoTime();
 
         double seconds = (end - start) / 1_000_000_000.0;
+        // Throughput = total operations divided by wall-clock time.
         double throughput = (threads * incrementsPerThread) / seconds;
 
         System.out.println("Threads: " + threads);

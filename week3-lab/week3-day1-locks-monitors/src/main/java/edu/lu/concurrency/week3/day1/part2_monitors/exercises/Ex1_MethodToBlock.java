@@ -1,5 +1,14 @@
 /*
  * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 3
+ * Lab Title: Day 1 - Locks, Monitors and Reentrancy
+ * ================================================================
+ */
+
+/*
+ * ================================================================
  * EXERCISE W3.P2.Ex1 - Convert synchronized Method To Block Form
  * ----------------------------------------------------------------
  * Goal:        Reproduce the same correctness as a `synchronized` method
@@ -25,14 +34,17 @@ public final class Ex1_MethodToBlock {
 
     private int count;
 
-    /* TODO: declare a private final Object lock here. */
+    private final Object lock = new Object();
 
     public void increment() {
-        // TODO: synchronized (lock) { count++; }
+        synchronized (lock) {
+            count++;
+        }
     }
 
     public int getCount() {
-        // TODO: synchronized (lock) { return count; }
-        return count;
+        synchronized (lock) {
+            return count;
+        }
     }
 }

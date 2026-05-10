@@ -2,6 +2,8 @@
  * ================================================================
  * Author: Dr. Mohamad Aoude
  * Course: Concurrency & Distributed Systems
+ * Week: Week 3
+ * Lab Title: Day 1 - Race, Monitors, and Lock Identity
  * Week 3 – Locks, Monitors & Reentrancy
  * ================================================================
  * EXERCISE W3.P5.Ex1 — Measure reentrant hold depth
@@ -39,12 +41,13 @@ public class Ex1_ReentrantDepth {
      * incrementing {@code callCount} at each level.
      */
     public synchronized void callChain(int depth) {
-        // TODO 1: if (depth > 0) { callCount++; callChain(depth - 1); }
-        throw new UnsupportedOperationException("TODO – implement callChain");
+        if (depth > 0) {
+            callCount++;
+            callChain(depth - 1);
+        }
     }
 
     public synchronized int getCallCount() {
-        // TODO 2: return callCount;
-        throw new UnsupportedOperationException("TODO – implement getCallCount");
+        return callCount;
     }
 }

@@ -1,3 +1,12 @@
+/*
+ * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 1
+ * Lab Title: Lab 1 - Foundations and Amdahl Performance Modeling
+ * ================================================================
+ */
+
 package edu.lu.concurrency.week1.lab1;
 
 import java.util.LinkedList;
@@ -10,6 +19,7 @@ public class QueueingLittleLawDemo {
         double arrivalRate = 50; // requests per second
         double serviceTimeMs = 100; // ms per request
 
+        // FIFO queue models waiting requests in front of a single server.
         Queue<Long> queue = new LinkedList<>();
 
         long simulationStart = System.currentTimeMillis();
@@ -29,12 +39,15 @@ public class QueueingLittleLawDemo {
             // Simulate service
             if (!queue.isEmpty()) {
                 long arrival = queue.poll();
+                // If service is slower than arrivals, queue length grows over time.
                 Thread.sleep((long) serviceTimeMs);
                 processed++;
             }
         }
 
+        // `processed` is throughput over this 5-second window.
         System.out.println("Processed: " + processed);
+        // Queue leftovers indicate work-in-system (Little's Law intuition).
         System.out.println("Remaining in queue: " + queue.size());
     }
 }

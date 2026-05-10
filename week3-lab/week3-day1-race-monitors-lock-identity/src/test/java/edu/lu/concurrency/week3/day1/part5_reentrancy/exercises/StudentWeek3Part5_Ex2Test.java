@@ -2,6 +2,8 @@
  * ================================================================
  * Author: Dr. Mohamad Aoude
  * Course: Concurrency & Distributed Systems
+ * Week: Week 3
+ * Lab Title: Day 1 - Race, Monitors, and Lock Identity
  * Week 3 – Locks, Monitors & Reentrancy
  * ================================================================
  * TEST SUITE: StudentWeek3Part5_Ex2Test

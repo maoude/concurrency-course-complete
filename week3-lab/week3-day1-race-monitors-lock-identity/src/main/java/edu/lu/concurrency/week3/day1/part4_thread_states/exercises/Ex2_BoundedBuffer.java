@@ -2,6 +2,8 @@
  * ================================================================
  * Author: Dr. Mohamad Aoude
  * Course: Concurrency & Distributed Systems
+ * Week: Week 3
+ * Lab Title: Day 1 - Race, Monitors, and Lock Identity
  * Week 3 – Locks, Monitors & Reentrancy
  * ================================================================
  * EXERCISE W3.P4.Ex2 — Bounded buffer using wait() / notifyAll()
@@ -52,20 +54,23 @@ public class Ex2_BoundedBuffer {
      * Add {@code value} to the buffer, waiting if the buffer is full.
      */
     public synchronized void put(int value) throws InterruptedException {
-        // TODO 1: while (queue.size() == capacity) wait();
-        // TODO 2: queue.addLast(value);
-        // TODO 3: notifyAll();
-        throw new UnsupportedOperationException("TODO – implement put");
+        while (queue.size() == capacity) {
+            wait();
+        }
+        queue.addLast(value);
+        notifyAll();
     }
 
     /**
      * Remove and return the head of the buffer, waiting if it is empty.
      */
     public synchronized int take() throws InterruptedException {
-        // TODO 1: while (queue.isEmpty()) wait();
-        // TODO 2: int v = queue.removeFirst();
-        // TODO 3: notifyAll();  return v;
-        throw new UnsupportedOperationException("TODO – implement take");
+        while (queue.isEmpty()) {
+            wait();
+        }
+        int value = queue.removeFirst();
+        notifyAll();
+        return value;
     }
 
     /** Current size — for test assertions only. */

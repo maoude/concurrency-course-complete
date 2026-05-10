@@ -1,5 +1,14 @@
 /*
  * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 1
+ * Lab Title: Lab 1 - Foundations and Amdahl Performance Modeling
+ * ================================================================
+ */
+
+/*
+ * ================================================================
  * EXERCISE W1.P4.Ex1 - Amdahl Speedup From Scratch
  * ----------------------------------------------------------------
  * Goal:        Implement Amdahl's Law without copying the existing
@@ -26,11 +35,13 @@ public final class Ex1_AmdahlSpeedup {
      * @return theoretical speedup factor (>= 1.0)
      */
     public static double speedup(double parallelFraction, int cores) {
-        // TODO 1: validate parallelFraction is between 0 and 1 (inclusive),
-        //         throw IllegalArgumentException otherwise.
-        // TODO 2: validate cores >= 1, throw IllegalArgumentException otherwise.
-        // TODO 3: return 1 / ((1 - parallelFraction) + parallelFraction / cores).
-        return 0.0; // placeholder so the project still compiles
+        if (parallelFraction < 0.0 || parallelFraction > 1.0) {
+            throw new IllegalArgumentException("parallelFraction must be in [0,1]");
+        }
+        if (cores < 1) {
+            throw new IllegalArgumentException("cores must be >= 1");
+        }
+        return 1.0 / ((1.0 - parallelFraction) + (parallelFraction / cores));
     }
 
     private Ex1_AmdahlSpeedup() {}

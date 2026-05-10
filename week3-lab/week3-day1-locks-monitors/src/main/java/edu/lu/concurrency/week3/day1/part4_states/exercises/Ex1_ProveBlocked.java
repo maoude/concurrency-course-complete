@@ -1,5 +1,14 @@
 /*
  * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 3
+ * Lab Title: Day 1 - Locks, Monitors and Reentrancy
+ * ================================================================
+ */
+
+/*
+ * ================================================================
  * EXERCISE W3.P4.Ex1 - Reliably Observe BLOCKED
  * ----------------------------------------------------------------
  * Goal:        Build a tiny test rig where one thread is GUARANTEED

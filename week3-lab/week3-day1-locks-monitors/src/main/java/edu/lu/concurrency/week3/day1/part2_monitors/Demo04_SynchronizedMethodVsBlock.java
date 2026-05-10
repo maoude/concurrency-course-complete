@@ -2,6 +2,8 @@
  * ================================================================
  * Author: Dr. Mohamad Aoude
  * Course: Concurrency & Distributed Systems
+ * Week: Week 3
+ * Lab Title: Day 1 - Locks, Monitors and Reentrancy
  * Week 3 - Part 2: Monitors
  * Demo04 - synchronized Method vs synchronized Block
  * ================================================================

@@ -2,6 +2,8 @@
  * ================================================================
  * Author: Dr. Mohamad Aoude
  * Course: Concurrency & Distributed Systems
+ * Week: Week 2
+ * Lab Title: Day 1 - Threads
  * Week 2 – Part 4: Race Conditions
  * Demo20 – join() Does NOT Fix a Race (Completion ≠ Mutual Exclusion)
  * ================================================================

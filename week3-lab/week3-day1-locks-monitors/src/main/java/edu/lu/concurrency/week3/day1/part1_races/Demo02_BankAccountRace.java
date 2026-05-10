@@ -2,6 +2,8 @@
  * ================================================================
  * Author: Dr. Mohamad Aoude
  * Course: Concurrency & Distributed Systems
+ * Week: Week 3
+ * Lab Title: Day 1 - Locks, Monitors and Reentrancy
  * Week 3 - Part 1: Races
  * Demo02 - BankAccountRace (Check-Then-Act Invariant Violation)
  * ================================================================

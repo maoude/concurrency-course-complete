@@ -1,3 +1,12 @@
+/*
+ * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 1
+ * Lab Title: Lab 1 - Foundations and Amdahl Performance Modeling
+ * ================================================================
+ */
+
 package edu.lu.concurrency.week1.lab1;
 
 import java.util.ArrayDeque;
@@ -15,6 +24,7 @@ public class SingleThreadEventLoop {
         }
     }
 
+    // Single shared queue consumed by one event-loop thread.
     private static final Queue<Request> queue = new ArrayDeque<>();
 
     private static volatile boolean running = true;
@@ -30,6 +40,7 @@ public class SingleThreadEventLoop {
         for (int i = 0; i < producerThreads; i++) {
             new Thread(() -> {
                 for (int j = 0; j < totalRequests / producerThreads; j++) {
+                    // Multiple producers must synchronize queue writes.
                     synchronized (queue) {
                         queue.add(new Request());
                     }
@@ -46,6 +57,7 @@ public class SingleThreadEventLoop {
         while (running) {
             Request r = null;
 
+            // Single consumer also synchronizes queue access.
             synchronized (queue) {
                 r = queue.poll();
             }
@@ -54,10 +66,12 @@ public class SingleThreadEventLoop {
                 // Tiny fast work (simulate in-memory operation)
                 int x = 1 + 1;
 
+                // Measure queueing + processing delay per request.
                 long latency = (System.nanoTime() - r.arrivalTime) / 1_000_000;
                 p95Tracker += latency;
                 processed++;
             } else if (latch.getCount() == 0) {
+                // Stop once producers are finished and queue is drained.
                 break;
             }
         }

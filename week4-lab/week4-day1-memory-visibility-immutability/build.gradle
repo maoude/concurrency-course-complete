@@ -1,0 +1,59 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.2')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging { events "passed", "skipped", "failed" }
+}
+
+def instructorMode = project.hasProperty('instructor') &&
+                     project.property('instructor').toString() == 'true'
+
+sourceSets {
+    main {
+        java {
+            if (!instructorMode) {
+                exclude '**/solutions/**'
+            }
+        }
+    }
+}
+
+tasks.register('studentCheck', Test) {
+    group = 'verification'
+    description = 'Run only the Student* grading tests with verbose output.'
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    useJUnitPlatform()
+    filter {
+        includeTestsMatching '*StudentWeek*'
+    }
+    testLogging {
+        events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+        showStandardStreams = true
+        exceptionFormat = 'full'
+    }
+}
+
+application {
+    mainClass = 'edu.lu.concurrency.week4.day1.part1_visibility.Demo01_StopFlagVisibility'
+}

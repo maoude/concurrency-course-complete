@@ -2,6 +2,8 @@
  * ================================================================
  * Author: Dr. Mohamad Aoude
  * Course: Concurrency & Distributed Systems
+ * Week: Week 3
+ * Lab Title: Day 1 - Race, Monitors, and Lock Identity
  * Week 3 – Locks, Monitors & Reentrancy
  * ================================================================
  * EXERCISE W3.P2.Ex2 — Lock splitting (two independent counters)
@@ -29,29 +31,25 @@ package edu.lu.concurrency.week3.day1.part2_monitors.exercises;
 
 public class Ex2_LockSplitting {
 
-    // TODO 1: remove this single lock and replace with lockA and lockB.
-    private final Object lock = new Object(); // ← replace this line
+    private final Object lockA = new Object();
+    private final Object lockB = new Object();
 
     private int counterA = 0;
     private int counterB = 0;
 
     public void incrementA() {
-        // TODO 2: use lockA only.
-        synchronized (lock) { counterA++; }
+        synchronized (lockA) { counterA++; }
     }
 
     public int getA() {
-        // TODO 3: use lockA only.
-        synchronized (lock) { return counterA; }
+        synchronized (lockA) { return counterA; }
     }
 
     public void incrementB() {
-        // TODO 4: use lockB only.
-        synchronized (lock) { counterB++; }
+        synchronized (lockB) { counterB++; }
     }
 
     public int getB() {
-        // TODO 5: use lockB only.
-        synchronized (lock) { return counterB; }
+        synchronized (lockB) { return counterB; }
     }
 }

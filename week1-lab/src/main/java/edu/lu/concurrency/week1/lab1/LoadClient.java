@@ -1,3 +1,12 @@
+/*
+ * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 1
+ * Lab Title: Lab 1 - Foundations and Amdahl Performance Modeling
+ * ================================================================
+ */
+
 package edu.lu.concurrency.week1.lab1;
 
 // LoadClient.java
@@ -16,13 +25,16 @@ public class LoadClient {
 
     public static void main(String[] args) throws Exception {
         int concurrentClients = 50; // change to 1, 5, 50
+        // Latch waits until all client threads complete.
         CountDownLatch latch = new CountDownLatch(concurrentClients);
+        // Shared list of per-request latencies.
         List<Long> responseTimes = new ArrayList<>();
         long globalStart = System.currentTimeMillis();
         for (int i = 0; i < concurrentClients; i++) {
             new Thread(() -> {
                 try {
                     long start = System.currentTimeMillis();
+                    // Open a new TCP connection per simulated client.
                     try (Socket socket = new Socket(HOST, PORT)) {
                         // Send minimal HTTP request
                         socket.getOutputStream().write(
@@ -35,10 +47,11 @@ public class LoadClient {
                                 );
 
                         while (reader.readLine() != null) {
-                            // consume response
+                            // Consume response lines until server closes connection.
                         }
                     }
                     long end = System.currentTimeMillis();
+                    // Synchronize list writes because multiple threads update it.
                     synchronized (responseTimes) {
                         responseTimes.add(end - start);
                     }
@@ -50,8 +63,10 @@ public class LoadClient {
                 }
             }).start();
         }
+        // Block until every client thread has signaled completion.
         latch.await();
         long globalEnd = System.currentTimeMillis();
+        // Aggregate average response time across all requests.
         double avg = responseTimes.stream()
                 .mapToLong(Long::longValue)
                 .average()

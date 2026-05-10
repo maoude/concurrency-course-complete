@@ -1,5 +1,14 @@
 /*
  * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 3
+ * Lab Title: Day 1 - Locks, Monitors and Reentrancy
+ * ================================================================
+ */
+
+/*
+ * ================================================================
  * EXERCISE W3.P3.Ex2 - The String Literal Trap
  * ----------------------------------------------------------------
  * Goal:        Demonstrate WHY locking on a String literal is dangerous,
@@ -46,14 +55,17 @@ public final class Ex2_StringLiteralTrap {
         }
     }
 
-    /* TODO: declare a private final Object safeLock; */
+    private final Object safeLock = new Object();
 
     public void safeIncrement() {
-        // TODO: synchronized (safeLock) { count++; }
+        synchronized (safeLock) {
+            count++;
+        }
     }
 
     public int getCount() {
-        // TODO: synchronized (safeLock) { return count; }
-        return count;
+        synchronized (safeLock) {
+            return count;
+        }
     }
 }

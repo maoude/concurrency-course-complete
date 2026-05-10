@@ -2,6 +2,8 @@
  * ================================================================
  * Author: Dr. Mohamad Aoude
  * Course: Concurrency & Distributed Systems
+ * Week: Week 3
+ * Lab Title: Day 1 - Race, Monitors, and Lock Identity
  * Week 3 – Locks, Monitors & Reentrancy
  * ================================================================
  * EXERCISE W3.P2.Ex1 — Convert a synchronized method to an explicit block
@@ -43,17 +45,19 @@ public class Ex1_MethodToBlock {
      *   - 'synchronized' must NOT appear on any method signature here.
      */
     public static class BlockCounter {
-        // TODO 1: add  private final Object lock = new Object();
+        private final Object lock = new Object();
         private int count = 0;
 
         public void increment() {
-            // TODO 2: guard count++ with synchronized(lock).
-            throw new UnsupportedOperationException("TODO");
+            synchronized (lock) {
+                count++;
+            }
         }
 
         public int getCount() {
-            // TODO 3: guard return count with synchronized(lock).
-            throw new UnsupportedOperationException("TODO");
+            synchronized (lock) {
+                return count;
+            }
         }
     }
 }

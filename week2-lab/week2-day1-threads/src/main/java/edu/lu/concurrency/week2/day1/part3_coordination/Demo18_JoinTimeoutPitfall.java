@@ -2,6 +2,8 @@
  * ================================================================
  * Author: Dr. Mohamad Aoude
  * Course: Concurrency & Distributed Systems
+ * Week: Week 2
+ * Lab Title: Day 1 - Threads
  * Week 2 – join(timeout) Pitfall: “Wait Up To” is NOT “Wait Until Done”
  * ================================================================
  *

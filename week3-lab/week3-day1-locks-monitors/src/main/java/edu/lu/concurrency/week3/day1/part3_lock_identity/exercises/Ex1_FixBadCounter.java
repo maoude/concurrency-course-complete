@@ -1,5 +1,14 @@
 /*
  * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 3
+ * Lab Title: Day 1 - Locks, Monitors and Reentrancy
+ * ================================================================
+ */
+
+/*
+ * ================================================================
  * EXERCISE W3.P3.Ex1 - Fix BadCounter In Place
  * ----------------------------------------------------------------
  * Goal:        Repair Demo06's BadCounter pattern. The shape of the
@@ -26,15 +35,17 @@ public final class Ex1_FixBadCounter {
 
     private int count;
 
-    /* TODO: declare a private final Object lock = new Object(); */
+    private final Object lock = new Object();
 
     public void increment() {
-        synchronized (new Object()) {  // TODO: replace with the shared lock
+        synchronized (lock) {
             count++;
         }
     }
 
     public int getCount() {
-        return count;                  // TODO: read under the shared lock
+        synchronized (lock) {
+            return count;
+        }
     }
 }

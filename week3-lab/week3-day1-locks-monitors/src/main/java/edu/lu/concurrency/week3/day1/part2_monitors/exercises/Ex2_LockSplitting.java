@@ -1,5 +1,14 @@
 /*
  * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 3
+ * Lab Title: Day 1 - Locks, Monitors and Reentrancy
+ * ================================================================
+ */
+
+/*
+ * ================================================================
  * EXERCISE W3.P2.Ex2 - Split a Hot Lock Into Two
  * ----------------------------------------------------------------
  * Goal:        Show that two independent counters do NOT need to share
@@ -30,16 +39,20 @@ public final class Ex2_LockSplitting {
     private int left;
     private int right;
 
-    /* TODO: leftLock, rightLock. */
+    private final Object leftLock = new Object();
+    private final Object rightLock = new Object();
 
-    public void incrementLeft()  { /* TODO */ }
-    public void incrementRight() { /* TODO */ }
+    public void incrementLeft()  { synchronized (leftLock) { left++; } }
+    public void incrementRight() { synchronized (rightLock) { right++; } }
 
-    public int getLeft()  { /* TODO: read under leftLock  */ return left;  }
-    public int getRight() { /* TODO: read under rightLock */ return right; }
+    public int getLeft()  { synchronized (leftLock) { return left; } }
+    public int getRight() { synchronized (rightLock) { return right; } }
 
     public int total() {
-        // TODO: implement consistently. See header.
-        return 0;
+        synchronized (leftLock) {
+            synchronized (rightLock) {
+                return left + right;
+            }
+        }
     }
 }

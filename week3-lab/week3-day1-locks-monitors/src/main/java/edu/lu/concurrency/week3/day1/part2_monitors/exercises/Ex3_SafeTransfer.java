@@ -1,5 +1,14 @@
 /*
  * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 3
+ * Lab Title: Day 1 - Locks, Monitors and Reentrancy
+ * ================================================================
+ */
+
+/*
+ * ================================================================
  * EXERCISE W3.P2.Ex3 - Synchronized transfer() Between Two Accounts
  * ----------------------------------------------------------------
  * Goal:        Fix Ex2_TransferRace from Part 1. Two invariants must
@@ -35,15 +44,41 @@ public final class Ex3_SafeTransfer {
     private final Object lockB = new Object();
 
     public void reset(int initialA, int initialB) {
-        // TODO: set accountA / accountB under both locks (or before threads start).
+        synchronized (lockA) {
+            synchronized (lockB) {
+                accountA = initialA;
+                accountB = initialB;
+            }
+        }
     }
 
-    public int getA()     { /* TODO */ return accountA; }
-    public int getB()     { /* TODO */ return accountB; }
-    public int getTotal() { /* TODO: must be consistent */ return accountA + accountB; }
+    public int getA()     { synchronized (lockA) { return accountA; } }
+    public int getB()     { synchronized (lockB) { return accountB; } }
+    public int getTotal() {
+        synchronized (lockA) {
+            synchronized (lockB) {
+                return accountA + accountB;
+            }
+        }
+    }
 
     public boolean transfer(Account from, Account to, int amount) {
-        // TODO: acquire BOTH locks in a fixed order, then check + mutate.
-        return false;
+        synchronized (lockA) {
+            synchronized (lockB) {
+                if (from == Account.A && to == Account.B) {
+                    if (accountA < amount) return false;
+                    accountA -= amount;
+                    accountB += amount;
+                    return true;
+                }
+                if (from == Account.B && to == Account.A) {
+                    if (accountB < amount) return false;
+                    accountB -= amount;
+                    accountA += amount;
+                    return true;
+                }
+                return false;
+            }
+        }
     }
 }

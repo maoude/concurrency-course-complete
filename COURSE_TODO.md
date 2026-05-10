@@ -66,6 +66,16 @@ Legend: `[x]` done, `[~]` in progress, `[ ]` pending,
        Therac-25 in W4, Knight Capital in W9, AWS S3 in W14.
 - [ ] **#57** Repo-root `SEMESTER_PROJECT.md` - the evolving project arc
        tying W3 / W5 / W8 / W14 checkpoints together.
+- [ ] **#58** Standard file preamble in all course source files:
+       Author + Course + Week + Lab Title.
+- [ ] **#59** Inline student-facing comments quality pass:
+       every exercise/demo/test file has meaningful inline guidance.
+- [ ] **#60** Practice-exercise completeness:
+       every weekly part includes at least one practice exercise with
+       matching student test(s).
+- [ ] **#61** Full testability requirement:
+       every lab must run with local wrapper (`gradlew[.bat] test`) and
+       all tests green in CI and local runs.
 
 ---
 
@@ -73,8 +83,8 @@ Legend: `[x]` done, `[~]` in progress, `[ ]` pending,
 
 ### Week 4 - Memory Visibility & Immutability
 
-- [ ] **#31** W4 lab scaffold (blocked by #22 _template-week)
-- [ ] **#32** W4 exercises (blocked by #31):
+- [x] **#31** W4 lab scaffold (blocked by #22 _template-week)
+- [x] **#32** W4 exercises (blocked by #31):
        Ex4.1 stale read fixed by `volatile`
        Ex4.2 broken counter - prove `volatile` alone is not enough
        Ex4.3 double-checked locking with `volatile`

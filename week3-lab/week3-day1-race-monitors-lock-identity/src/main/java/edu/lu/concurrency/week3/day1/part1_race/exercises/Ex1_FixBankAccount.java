@@ -2,6 +2,8 @@
  * ================================================================
  * Author: Dr. Mohamad Aoude
  * Course: Concurrency & Distributed Systems
+ * Week: Week 3
+ * Lab Title: Day 1 - Race, Monitors, and Lock Identity
  * Week 3 – Locks, Monitors & Reentrancy
  * ================================================================
  * EXERCISE W3.P1.Ex1 — Fix the check-then-act bank withdrawal
@@ -44,10 +46,11 @@ public class Ex1_FixBankAccount {
      *
      * @return {@code true} if the withdrawal succeeded, {@code false} otherwise.
      */
-    public boolean withdrawSafe(int amount) {
-        // TODO 1: make this method thread-safe (add one keyword to the signature).
-        // TODO 2: if balance >= amount, deduct amount and return true.
-        // TODO 3: otherwise return false — do NOT modify balance.
-        throw new UnsupportedOperationException("TODO – implement withdrawSafe");
+    public synchronized boolean withdrawSafe(int amount) {
+        if (balance >= amount) {
+            balance -= amount;
+            return true;
+        }
+        return false;
     }
 }

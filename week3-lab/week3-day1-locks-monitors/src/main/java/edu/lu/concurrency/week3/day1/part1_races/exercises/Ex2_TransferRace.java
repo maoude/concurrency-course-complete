@@ -1,5 +1,14 @@
 /*
  * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 3
+ * Lab Title: Day 1 - Locks, Monitors and Reentrancy
+ * ================================================================
+ */
+
+/*
+ * ================================================================
  * EXERCISE W3.P1.Ex2 - Break Two Invariants With transfer()
  * ----------------------------------------------------------------
  * Goal:        Extend the bank-account race to a `transfer` operation
@@ -33,7 +42,8 @@ public final class Ex2_TransferRace {
     private int accountB;
 
     public void reset(int initialA, int initialB) {
-        // TODO: set accountA and accountB.
+        this.accountA = initialA;
+        this.accountB = initialB;
     }
 
     public int getA()     { return accountA; }
@@ -41,8 +51,26 @@ public final class Ex2_TransferRace {
     public int getTotal() { return accountA + accountB; }
 
     public boolean transfer(Account from, Account to, int amount) {
-        // TODO: check-then-act, NO synchronization.
-        // Use Thread.sleep(1) between the check and the mutation.
+        int source = (from == Account.A) ? accountA : accountB;
+        if (source < amount) {
+            return false;
+        }
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return false;
+        }
+        if (from == Account.A && to == Account.B) {
+            accountA -= amount;
+            accountB += amount;
+            return true;
+        }
+        if (from == Account.B && to == Account.A) {
+            accountB -= amount;
+            accountA += amount;
+            return true;
+        }
         return false;
     }
 }

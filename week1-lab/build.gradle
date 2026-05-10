@@ -62,36 +62,3 @@ tasks.register('studentCheck', Test) {
     }
 }
 
-// -------------------------------------------------------------------
-// Instructor solutions are excluded from the default compile.
-// Pass -Pinstructor=true to include them.
-// -------------------------------------------------------------------
-def instructorMode = project.hasProperty("instructor") &&
-                     project.property("instructor").toString() == "true"
-
-sourceSets {
-    main {
-        java {
-            if (!instructorMode) {
-                exclude "**/solutions/**"
-            }
-        }
-    }
-}
-
-// -------------------------------------------------------------------
-// `gradlew studentCheck` runs ONLY the Student*Test grading suite.
-// -------------------------------------------------------------------
-tasks.register("studentCheck", Test) {
-    group = "verification"
-    description = "Run only the Student* grading tests with verbose output."
-    useJUnitPlatform()
-    filter {
-        includeTestsMatching "edu.lu.concurrency.*.exercises.StudentWeek*"
-    }
-    testLogging {
-        events "passed", "skipped", "failed", "standardOut", "standardError"
-        showStandardStreams = true
-        exceptionFormat = "full"
-    }
-}

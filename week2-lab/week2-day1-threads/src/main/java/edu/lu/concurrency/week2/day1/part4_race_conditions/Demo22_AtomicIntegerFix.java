@@ -2,6 +2,8 @@
  * ================================================================
  * Author: Dr. Mohamad Aoude
  * Course: Concurrency & Distributed Systems
+ * Week: Week 2
+ * Lab Title: Day 1 - Threads
  * Week 2 – Part 4: Race Conditions
  * Demo22 – AtomicInteger Fix (Lock-Free Atomic Increment)
  * ================================================================

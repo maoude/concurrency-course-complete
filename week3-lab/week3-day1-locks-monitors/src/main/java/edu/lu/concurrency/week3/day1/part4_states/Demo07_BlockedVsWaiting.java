@@ -2,6 +2,8 @@
  * ================================================================
  * Author: Dr. Mohamad Aoude
  * Course: Concurrency & Distributed Systems
+ * Week: Week 3
+ * Lab Title: Day 1 - Locks, Monitors and Reentrancy
  * Week 3 - Part 4: Thread States
  * Demo07 - BlockedVsWaiting (Two Different Reasons a Thread Is Idle)
  * ================================================================

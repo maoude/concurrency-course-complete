@@ -1,3 +1,12 @@
+/*
+ * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 3
+ * Lab Title: Day 1 - Locks, Monitors and Reentrancy
+ * ================================================================
+ */
+
 package edu.lu.concurrency.week3.day1.part4_states;
 
 import edu.lu.concurrency.week3.day1.TestIO;

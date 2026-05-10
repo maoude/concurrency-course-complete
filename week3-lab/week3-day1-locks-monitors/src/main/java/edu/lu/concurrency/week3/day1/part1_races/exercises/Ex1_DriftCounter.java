@@ -1,5 +1,14 @@
 /*
  * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 3
+ * Lab Title: Day 1 - Locks, Monitors and Reentrancy
+ * ================================================================
+ */
+
+/*
+ * ================================================================
  * EXERCISE W3.P1.Ex1 - Reproduce Lost Updates Reliably
  * ----------------------------------------------------------------
  * Goal:        Build a counter that, on a multi-core machine,
@@ -28,13 +37,21 @@ public final class Ex1_DriftCounter {
     public int getCount() { return count; }
 
     public void increment() {
-        // TODO: non-atomic read-modify-write of `count`.
+        count++;
     }
 
     public int runRace(int threads, int iterations) throws InterruptedException {
-        // TODO 1: reset count to 0.
-        // TODO 2: create `threads` Thread objects each looping `iterations` times calling increment().
-        // TODO 3: start them, join them, return count.
-        return 0;
+        count = 0;
+        Thread[] workers = new Thread[threads];
+        for (int i = 0; i < threads; i++) {
+            workers[i] = new Thread(() -> {
+                for (int j = 0; j < iterations; j++) {
+                    increment();
+                }
+            }, "drift-" + i);
+        }
+        for (Thread worker : workers) worker.start();
+        for (Thread worker : workers) worker.join();
+        return count;
     }
 }

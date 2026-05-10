@@ -1,5 +1,14 @@
 /*
  * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 1
+ * Lab Title: Lab 1 - Foundations and Amdahl Performance Modeling
+ * ================================================================
+ */
+
+/*
+ * ================================================================
  * EXERCISE W1.P4.Ex2 - Karp-Flatt: Estimate the Serial Fraction
  * ----------------------------------------------------------------
  * Goal:        Given a measured speedup S on N processors, recover the
@@ -30,15 +39,21 @@ public final class Ex2_KarpFlatt {
 
     /** Experimentally determined serial fraction e. */
     public static double serialFraction(double measuredSpeedup, int cores) {
-        // TODO 1: validate measuredSpeedup > 0 and cores >= 2.
-        // TODO 2: return (1.0/S - 1.0/N) / (1.0 - 1.0/N).
-        return 0.0;
+        if (!(measuredSpeedup > 0.0)) {
+            throw new IllegalArgumentException("measuredSpeedup must be > 0");
+        }
+        if (cores < 2) {
+            throw new IllegalArgumentException("N must be >= 2");
+        }
+
+        double invS = 1.0 / measuredSpeedup;
+        double invN = 1.0 / cores;
+        return (invS - invN) / (1.0 - invN);
     }
 
     /** Parallel fraction P = 1 - e. */
     public static double parallelFraction(double measuredSpeedup, int cores) {
-        // TODO: implement using serialFraction.
-        return 0.0;
+        return 1.0 - serialFraction(measuredSpeedup, cores);
     }
 
     private Ex2_KarpFlatt() {}

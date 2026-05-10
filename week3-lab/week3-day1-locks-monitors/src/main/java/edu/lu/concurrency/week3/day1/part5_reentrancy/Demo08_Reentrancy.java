@@ -2,6 +2,8 @@
  * ================================================================
  * Author: Dr. Mohamad Aoude
  * Course: Concurrency & Distributed Systems
+ * Week: Week 3
+ * Lab Title: Day 1 - Locks, Monitors and Reentrancy
  * Week 3 - Part 5: Reentrancy
  * Demo08 - Reentrancy (Same Thread Can Re-Enter Its Own Lock)
  * ================================================================

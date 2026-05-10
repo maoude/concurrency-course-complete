@@ -2,6 +2,8 @@
  * ================================================================
  * Author: Dr. Mohamad Aoude
  * Course: Concurrency & Distributed Systems
+ * Week: Week 3
+ * Lab Title: Day 1 - Race, Monitors, and Lock Identity
  * Week 3 – Locks, Monitors & Reentrancy
  * ================================================================
  * EXERCISE W3.P1.Ex2 — Deadlock-free transfer between two accounts
@@ -52,12 +54,18 @@ public class Ex2_SafeTransfer {
      *         {@code from} did not have enough balance.
      */
     public static boolean transfer(Account from, Account to, int amount) {
-        // TODO 1: determine lock order — use account.id to pick 'first' and 'second'.
-        // TODO 2: synchronized (first) { synchronized (second) { ... } }
-        // TODO 3: if from.balance >= amount  →  from.balance -= amount;
-        //                                       to.balance   += amount;
-        //                                       return true;
-        // TODO 4: otherwise return false.
-        throw new UnsupportedOperationException("TODO – implement transfer");
+        Account first  = (from.id < to.id) ? from : to;
+        Account second = (from.id < to.id) ? to : from;
+
+        synchronized (first) {
+            synchronized (second) {
+                if (from.balance >= amount) {
+                    from.balance -= amount;
+                    to.balance += amount;
+                    return true;
+                }
+                return false;
+            }
+        }
     }
 }

@@ -1,4 +1,15 @@
-package main.java.edu.lu.concurrency.week3.day1.part1_race_monitors_lock_identity;
+/*
+ * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 3
+ * Lab Title: Day 1 - Race, Monitors, and Lock Identity
+ * Week 3 - Race, Monitors, Lock Identity
+ * Demo: LockIdentityTrap
+ * ================================================================
+ */
+
+package edu.lu.concurrency.week3.day1.part1_race_monitors_lock_identity;
 
 public class LockIdentityTrap {
 

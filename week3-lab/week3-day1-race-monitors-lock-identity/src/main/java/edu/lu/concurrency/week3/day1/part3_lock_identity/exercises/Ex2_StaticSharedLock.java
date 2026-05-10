@@ -2,6 +2,8 @@
  * ================================================================
  * Author: Dr. Mohamad Aoude
  * Course: Concurrency & Distributed Systems
+ * Week: Week 3
+ * Lab Title: Day 1 - Race, Monitors, and Lock Identity
  * Week 3 – Locks, Monitors & Reentrancy
  * ================================================================
  * EXERCISE W3.P3.Ex2 — Cross-instance coordination via a static lock
@@ -29,17 +31,19 @@ package edu.lu.concurrency.week3.day1.part3_lock_identity.exercises;
 
 public class Ex2_StaticSharedLock {
 
-    // TODO 1: private static final Object CLASS_LOCK = new Object();
+    private static final Object CLASS_LOCK = new Object();
 
     private int count = 0;
 
     public void increment() {
-        // TODO 2: synchronized (CLASS_LOCK) { count++; }
-        throw new UnsupportedOperationException("TODO – implement increment");
+        synchronized (CLASS_LOCK) {
+            count++;
+        }
     }
 
     public int getCount() {
-        // TODO 3: synchronized (CLASS_LOCK) { return count; }
-        throw new UnsupportedOperationException("TODO – implement getCount");
+        synchronized (CLASS_LOCK) {
+            return count;
+        }
     }
 }

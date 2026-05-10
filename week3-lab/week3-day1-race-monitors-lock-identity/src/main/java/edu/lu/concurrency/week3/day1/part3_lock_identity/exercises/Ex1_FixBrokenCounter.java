@@ -2,6 +2,8 @@
  * ================================================================
  * Author: Dr. Mohamad Aoude
  * Course: Concurrency & Distributed Systems
+ * Week: Week 3
+ * Lab Title: Day 1 - Race, Monitors, and Lock Identity
  * Week 3 – Locks, Monitors & Reentrancy
  * ================================================================
  * EXERCISE W3.P3.Ex1 — Spot and fix the lock-identity bug
@@ -32,16 +34,19 @@ package edu.lu.concurrency.week3.day1.part3_lock_identity.exercises;
 
 public class Ex1_FixBrokenCounter {
 
-    // TODO: move the lock declaration here (private final Object lock = new Object();)
+    private final Object lock = new Object();
 
     private int count = 0;
 
     public void increment() {
-        Object lock = new Object();   // BUG — one new object per call; fix this line
         synchronized (lock) {
             count++;
         }
     }
 
-    public int getCount() { return count; }
+    public int getCount() {
+        synchronized (lock) {
+            return count;
+        }
+    }
 }

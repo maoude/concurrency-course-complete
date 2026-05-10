@@ -1,3 +1,12 @@
+/*
+ * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 1
+ * Lab Title: Lab 1 - Foundations and Amdahl Performance Modeling
+ * ================================================================
+ */
+
 package edu.lu.concurrency.week1.lab1;
 
 import java.io.ByteArrayOutputStream;
@@ -5,6 +14,7 @@ import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 
 public final class TestConsole {
+    // Student note: Read this class top-down; comments explain intent and concurrency behavior.
 
     @FunctionalInterface
     public interface ThrowingAction {
