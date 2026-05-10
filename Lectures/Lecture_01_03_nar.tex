@@ -1,0 +1,396 @@
+\documentclass[11pt]{beamer}
+
+% ============================================================
+% Theme & Appearance
+% ============================================================
+\usetheme{Madrid}
+\usecolortheme{seahorse}
+\setbeamertemplate{navigation symbols}{}
+
+% ============================================================
+% Encoding & Fonts (pdfLaTeX-safe)
+% ============================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+% ============================================================
+% Math & Graphics
+% ============================================================
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+
+% ============================================================
+% Code Listings
+% ============================================================
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+	basicstyle=\ttfamily\small,
+	frame=single,
+	breaklines=true,
+	columns=fullflexible,
+	keywordstyle=\color{blue},
+	commentstyle=\color{gray},
+	stringstyle=\color{red},
+	showstringspaces=false
+}
+
+% ============================================================
+% Title Information
+% ============================================================
+\title{Concurrency \& Distributed Systems}
+\subtitle{Week 1 --- Part 3: Theoretical Framing (Why Concurrency Works and Fails)}
+\author{Dr. Mohamad Aoude}
+\institute{Lebanese University \\ Faculty of Engineering}
+\date{\today}
+
+% ============================================================
+\begin{document}
+	
+	% ============================================================
+	\begin{frame}
+		\titlepage
+	\end{frame}
+	
+	% ============================================================
+	\section{Theoretical Framing}
+	% ============================================================
+	
+	% ------------------------------------------------------------
+	\begin{frame}{Why Concurrency Works (and Fails)}
+		Practical systems fail for mathematical reasons.
+		
+
+		Before adding threads blindly, we must understand three principles:
+		
+		\begin{itemize}
+			\item \textbf{Amdahl's Law} (limits of speedup)
+			\item \textbf{Little's Law} (queue behavior)
+			\item \textbf{Context switching cost} (hidden overhead)
+		\end{itemize}
+		
+
+		\begin{alertblock}{Senior-level mindset}
+			You must justify performance claims with math \textbf{and} measurements.
+		\end{alertblock}
+	\end{frame}
+	
+	% ============================================================
+	\section{Amdahl's Law}
+	% ============================================================
+	
+	% ------------------------------------------------------------
+	\begin{frame}{Amdahl's Law --- The Ceiling}
+		\[
+		S(N) = \frac{1}{(1 - P) + \frac{P}{N}}
+		\]
+		
+
+		Where:
+		\begin{itemize}
+			\item $P$ = parallelizable fraction
+			\item $N$ = number of cores/threads
+			\item $S(N)$ = maximum theoretical speedup
+		\end{itemize}
+		
+
+		\begin{block}{Interpretation}
+			The sequential part $(1-P)$ dominates as $N$ grows.
+		\end{block}
+	\end{frame}
+	
+	% ------------------------------------------------------------
+	\begin{frame}{Worked Example}
+		Assume:
+		\begin{itemize}
+			\item $P = 0.8$ (80\% parallelizable)
+			\item $N = 10$
+		\end{itemize}
+		
+
+		\[
+		S(10) = \frac{1}{0.2 + \frac{0.8}{10}}
+		= \frac{1}{0.2 + 0.08}
+		= \frac{1}{0.28}
+		\approx 3.57
+		\]
+
+		\begin{alertblock}{Key point}
+			Even 10 threads cannot give 10$\times$ speedup.
+		\end{alertblock}
+	\end{frame}
+	
+	% ------------------------------------------------------------
+	\begin{frame}{Infinite Cores Limit}
+		As $N \to \infty$:
+		\[
+		S_{\max} = \frac{1}{1-P}
+		\]
+		
+
+		If $P=0.8$:
+		\[
+		S_{\max} = \frac{1}{0.2} = 5
+		\]
+		
+
+		\begin{block}{Meaning}
+			Even infinite cores cannot exceed 5$\times$ speedup.
+		\end{block}
+	\end{frame}
+	
+	% ------------------------------------------------------------
+	\begin{frame}{Student Calculation (1 minute)}
+		\textbf{Question:} If $P=0.5$, what is the maximum speedup with infinite cores?
+		
+
+		\[
+		S_{\max} = \frac{1}{1-0.5} = 2
+		\]
+		
+
+		\begin{alertblock}{Lesson}
+			If half the program is sequential, scaling is fundamentally limited.
+		\end{alertblock}
+	\end{frame}
+	
+	% ============================================================
+	\section{Live Demo: AmdahlCalculator}
+	% ============================================================
+	
+	% ------------------------------------------------------------
+	\begin{frame}[fragile]{Student Instructions: Run AmdahlCalculator (Mandatory)}
+		\textbf{Step 1 --- Compile}
+		\begin{lstlisting}
+			javac AmdahlCalculator.java
+		\end{lstlisting}
+		
+
+		\textbf{Step 2 --- Run}
+		\begin{lstlisting}
+			java AmdahlCalculator
+		\end{lstlisting}
+		
+
+		\textbf{Step 3 --- Record}
+		\begin{itemize}
+			\item Copy the printed table into your report (or take a screenshot)
+			\item Highlight the ``inf cores'' column
+		\end{itemize}
+	\end{frame}
+	
+	% ------------------------------------------------------------
+	\begin{frame}[fragile]{AmdahlCalculator.java (Core Function)}
+		Focus on the formula:
+		
+		\begin{lstlisting}[language=Java]
+			public static double calculateSpeedup(double P, int N) {
+				return 1.0 / ((1.0 - P) + (P / N));
+			}
+		\end{lstlisting}
+		
+
+		\begin{block}{What to watch}
+			As $N$ grows, the speedup increases then \textbf{plateaus}.
+		\end{block}
+	\end{frame}
+	
+	% ------------------------------------------------------------
+	\begin{frame}{Expected Pattern (Sanity Check)}
+		Your exact rounding may differ, but the \textbf{limits} must match:
+		
+		\begin{itemize}
+			\item $P=0.50 \Rightarrow S_{\max} \approx 2.00$
+			\item $P=0.75 \Rightarrow S_{\max} \approx 4.00$
+			\item $P=0.90 \Rightarrow S_{\max} \approx 10.00$
+			\item $P=0.95 \Rightarrow S_{\max} \approx 20.00$
+		\end{itemize}
+		
+
+		\begin{alertblock}{If your output does not match}
+			Your formula implementation is wrong.
+		\end{alertblock}
+	\end{frame}
+	
+	% ============================================================
+	\section{Little's Law}
+	% ============================================================
+	
+	% ------------------------------------------------------------
+	\begin{frame}{Little's Law --- Why Queues Form}
+		\[
+		L = \lambda W
+		\]
+		
+
+		Where:
+		\begin{itemize}
+			\item $L$ = average number of requests in the system
+			\item $\lambda$ = arrival rate (req/s)
+			\item $W$ = average time in system (seconds)
+		\end{itemize}
+		
+
+		\begin{block}{Key idea}
+			If latency $W$ increases, queue size $L$ increases automatically.
+		\end{block}
+	\end{frame}
+	
+	% ------------------------------------------------------------
+	\begin{frame}{Little's Law Example}
+		If:
+		\begin{itemize}
+			\item $\lambda = 50$ req/s
+			\item $W = 0.2$ s (200ms)
+		\end{itemize}
+		
+
+		\[
+		L = 50 \times 0.2 = 10
+		\]
+
+		\begin{alertblock}{Interpretation}
+			On average, 10 requests are inside the system at once.
+		\end{alertblock}
+	\end{frame}
+	
+	% ------------------------------------------------------------
+	\begin{frame}{Student Exercise (1 minute)}
+		Compute $L$ if:
+		\[
+		\lambda = 80~\text{req/s},\quad W = 0.25~\text{s}
+		\]
+		
+
+		\[
+		L = 80 \times 0.25 = 20
+		\]
+		
+
+		\begin{block}{Meaning}
+			Your system must handle about 20 concurrent requests on average.
+		\end{block}
+	\end{frame}
+	
+	% ============================================================
+	\section{Context Switching Cost}
+	% ============================================================
+	
+	% ------------------------------------------------------------
+	\begin{frame}{Context Switching Cost --- Hidden Overhead}
+		Threads are not free. Context switching can imply:
+		\begin{itemize}
+			\item saving/restoring registers
+			\item pipeline disruption
+			\item cache pollution
+			\item scheduler overhead
+		\end{itemize}
+		
+
+		\begin{alertblock}{When thread count is huge}
+			The OS scheduler thrashes and p95 latency explodes.
+		\end{alertblock}
+	\end{frame}
+	
+	% ------------------------------------------------------------
+	\begin{frame}{Context Switching Example}
+		Assume:
+		\begin{itemize}
+			\item switch cost = $5~\mu s$
+			\item $100{,}000$ switches/sec
+		\end{itemize}
+		
+
+		\[
+		100{,}000 \times 5\mu s = 0.5s
+		\]
+		
+
+		\begin{alertblock}{Interpretation}
+			Half the CPU time is wasted switching.
+		\end{alertblock}
+	\end{frame}
+	
+	% ============================================================
+	\section{Synthesis and Activities}
+	% ============================================================
+	
+	% ------------------------------------------------------------
+	\begin{frame}{Synthesis}
+		\begin{itemize}
+			\item \textbf{Amdahl:} parallelism has a ceiling.
+			\item \textbf{Little:} latency creates queues.
+			\item \textbf{Context switching:} too many threads hurt.
+		\end{itemize}
+		
+
+		\begin{block}{Balance}
+			Idle time exploitation \quad vs \quad scheduling overhead.
+		\end{block}
+	\end{frame}
+	
+	% ------------------------------------------------------------
+	\begin{frame}{Transition Activity: Predict -- Then -- Test}
+		\textbf{Scenario:} ``We will add threads next.''
+		
+		Predict what happens to:
+		\begin{enumerate}
+			\item Latency (p50)
+			\item Throughput
+			\item CPU usage
+		\end{enumerate}
+		
+
+		Write predictions now. We test in Part 2 experiments.
+	\end{frame}
+	
+	% ------------------------------------------------------------
+	\begin{frame}{Common Misconceptions Quiz (Pair Defense)}
+		True/False (defend your answer in pairs):
+		\begin{enumerate}
+			\item High throughput always means low latency. (False)
+			\item Adding more threads always improves performance. (False)
+			\item Parallelism requires multiple cores; concurrency does not. (True)
+			\item If CPU is 10\%, the system is underutilized. (Depends)
+			\item Concurrency is only useful for I/O-bound tasks. (Mostly true; nuanced)
+		\end{enumerate}
+	\end{frame}
+	
+	% ------------------------------------------------------------
+	\begin{frame}{Wrap + Homework Bridge}
+		\textbf{Students repeat back:}
+		\begin{itemize}
+			\item Concurrency $\neq$ speed; concurrency hides waiting
+			\item Latency $\neq$ throughput (both matter)
+			\item Most servers are I/O-bound
+		\end{itemize}
+		
+
+		\textbf{Homework (mandatory):}
+		\begin{itemize}
+			\item Run \texttt{AmdahlCalculator}
+			\item Paste output table (or screenshot) into your report
+			\item Answer: ``Why does speedup plateau?''
+		\end{itemize}
+	\end{frame}
+	
+	% ------------------------------------------------------------
+	\begin{frame}{Exit Ticket (2 minutes)}
+		Answer quickly:
+		\begin{enumerate}
+			\item Define latency in one sentence.
+			\item Why can CPU be low while latency is high?
+			\item True/False: more threads always help. (one keyword)
+		\end{enumerate}
+		
+
+		\begin{alertblock}{Key takeaway}
+			You cannot parallelize waiting away. You must hide it.
+		\end{alertblock}
+	\end{frame}
+	
+\end{document}

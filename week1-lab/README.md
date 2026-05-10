@@ -145,4 +145,22 @@ DO commit:
 
 ---
 
+## Explanation Quality Rubric
+
+- Poor: "It's synchronized / it works now."
+- Good: "Synchronization enforces mutual exclusion on this monitor, preventing interleaving that violates invariant X."
+- Excellent: "This establishes happens-before between operations A and B, preventing reordering/visibility issues, preserving invariant X under schedule Y; tradeoff is contention cost Z."
+
+---
+
+## Pitfalls Cheat Sheet
+
+The course-wide cheat sheet lives at `../PITFALLS.md`. No releases
+are unlocked in Week 1 yet - **Release 1** drops in Week 2.
+For this week, just be aware that your benchmark choices preview
+Release 2 (oversized pools, unbounded queues) and Release 3
+(measure-before-optimize) which arrive in W5 and W8.
+
+---
+
 End of Week 1 Lab

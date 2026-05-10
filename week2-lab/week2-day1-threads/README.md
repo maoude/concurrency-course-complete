@@ -131,3 +131,21 @@ Look for:
 
 Design as if the scheduler is adversarial.  
 Correctness must not depend on timing.
+
+---
+
+# Explanation Quality Rubric
+
+- Poor: "It's synchronized / it works now."
+- Good: "Synchronization enforces mutual exclusion on this monitor, preventing interleaving that violates invariant X."
+- Excellent: "This establishes happens-before between operations A and B, preventing reordering/visibility issues, preserving invariant X under schedule Y; tradeoff is contention cost Z."
+
+---
+
+# Pitfalls Cheat Sheet
+
+This week unlocks **Release 1** of `../../PITFALLS.md`:
+- P1.1 - Using `sleep()` for synchronization
+- P1.2 - Assuming thread order or fairness
+
+Earlier releases stay relevant for the rest of the course.

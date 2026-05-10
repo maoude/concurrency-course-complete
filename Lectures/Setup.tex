@@ -1,0 +1,372 @@
+% ============================================================
+% Week 1 Lab Manual (LaTeX) — Concurrency & Distributed Systems
+% Lebanese University, Faculty of Engineering
+% Instructor: Dr. Mohamad Aoude
+% ============================================================
+
+\documentclass[11pt,a4paper]{article}
+
+% -------------------------------
+% Encoding & fonts (pdfLaTeX-safe)
+% -------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+% -------------------------------
+% Layout
+% -------------------------------
+\usepackage[a4paper,margin=1.6cm]{geometry}
+\usepackage{parskip}
+
+% -------------------------------
+% Lists, tables, links
+% -------------------------------
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+% -------------------------------
+% Code
+% -------------------------------
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+	basicstyle=\ttfamily\small,
+	breaklines=true,
+	columns=fullflexible,
+	frame=single,
+	rulecolor=\color{black},
+	showstringspaces=false,
+	tabsize=2
+}
+
+% -------------------------------
+% Simple helpers
+% -------------------------------
+\newcommand{\course}{Concurrency \& Distributed Systems}
+\newcommand{\univ}{Lebanese University}
+\newcommand{\faculty}{Faculty of Engineering}
+\newcommand{\instructor}{Dr.\ Mohamad Aoude}
+\newcommand{\wk}{Week 1}
+\newcommand{\labtitle}{The Waiting Problem}
+\newcommand{\checkbox}{\(\square\)}
+\newcommand{\checkedbox}{\(\blacksquare\)}
+
+
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{graphicx}
+\usepackage{eso-pic}
+\usepackage{qrcode}
+
+% -------------------------------
+% Header & Footer
+% -------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+
+\fancyhead[L]{\textbf{ULFG --- SEM VIII}}
+\fancyhead[R]{\textbf{Dr M AOUDE}}
+
+\fancyfoot[L]{\textcopyright\ \the\year\ M AOUDE -- All Rights Reserved}
+\fancyfoot[C]{Page \thepage\ /\ \pageref{LastPage}}
+\fancyfoot[R]{\today}
+
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% -------------------------------
+% Synapse AI Watermark (pdfLaTeX-safe)
+% Put synapse_ai_logo.png in same folder as .tex
+% -------------------------------
+\newcommand\SynapseWatermark{%
+	\AddToShipoutPictureBG*{%
+		\AtPageCenter{%
+			\makebox(-400,550){%
+				\color{black!6}%
+				\includegraphics[width=0.25\paperwidth]{synapse_ai_logo_t.png}%
+			}%
+		}%
+	}%
+}
+
+\begin{document}
+	
+
+\SynapseWatermark
+	
+
+\newpage	
+		\begin{center}
+		{\LARGE \textbf{\wk Environment Setup Manual: \labtitle}}\\[1mm]
+		{\large \textit{\course} --- \univ, \faculty}\\[1mm]
+		\textbf{Instructor:} \instructor \quad | \quad \textbf{Language:} Java (JDK 17+)
+	\end{center}
+	\vspace{6pt}
+\vspace{6pt}
+\begin{center}
+	\begin{tabular}{cc}
+		\qrcode[height=2.2cm]{https://github.com/maoude/concurrency-course}
+		&
+		\qrcode[height=2.2cm]{https://www.linkedin.com/in/mohamad-aoude-4aba1270/}
+		\\[4pt]
+		\small GitHub Repository
+		&
+		\small LinkedIn Profile
+	\end{tabular}
+\end{center}
+
+	
+	% ============================================================
+	\section*{ — Week 1 Lab}
+	
+	This section provides a complete PowerShell-first setup guide for configuring
+	the Week 1 Lab environment on Windows.
+	
+	The environment includes:
+	\begin{itemize}
+		\item Temurin JDK 25 (LTS)
+		\item Visual Studio Code
+		\item Java Extension Pack
+	\end{itemize}
+	
+	\vspace{6pt}
+	\hrule
+	\vspace{10pt}
+	
+	% ============================================================
+	\subsection*{Important — Administrative Privileges Required}
+	
+	\textbf{All installation commands must be executed in PowerShell running as Administrator.}
+	
+	\textbf{How to open PowerShell as Administrator:}
+	
+	\begin{enumerate}
+		\item Open the Start Menu
+		\item Type \texttt{PowerShell}
+		\item Right-click on \textbf{Windows PowerShell}
+		\item Select \textbf{Run as administrator}
+	\end{enumerate}
+	
+	If PowerShell is not running as Administrator, system-wide PATH and JDK installation will fail.
+	
+	\vspace{6pt}
+	\hrule
+	\vspace{10pt}
+	
+	% ============================================================
+	\subsection*{Step 0 — Verify or Install Winget}
+	
+	\textbf{0.1 Check if winget is installed}
+	
+	\begin{lstlisting}
+		winget --version
+	\end{lstlisting}
+	
+	If a version number is displayed, proceed to Step 1.
+	
+	\vspace{4pt}
+	
+	\textbf{0.2 If winget is NOT installed}
+	
+	Winget is part of the \textbf{App Installer} package in Windows 10/11.
+	
+	\textbf{Method 1 — Install via Microsoft Store:}
+	
+	\begin{itemize}
+		\item Open Microsoft Store
+		\item Search for \textbf{App Installer}
+		\item Install or Update it
+	\end{itemize}
+	
+	\vspace{4pt}
+	
+	\textbf{Method 2 — Install manually (offline method)}
+	
+	Download the latest App Installer package from:
+	
+	\begin{lstlisting}
+		https://aka.ms/getwinget
+	\end{lstlisting}
+	
+	After installation, close and reopen PowerShell, then verify:
+	
+	\begin{lstlisting}
+		winget --version
+	\end{lstlisting}
+	
+	\vspace{6pt}
+	\hrule
+	\vspace{10pt}
+	
+	% ============================================================
+	\subsection*{Step 1 — Install JDK 25 (Temurin LTS)}
+	
+	\textbf{1.1 Install Temurin JDK 25}
+	
+	\begin{lstlisting}
+		winget install -e --id EclipseAdoptium.Temurin.25.JDK --source winget
+	\end{lstlisting}
+	
+	\vspace{6pt}
+	
+	% ============================================================
+	\subsection*{Step 2 — Configure JAVA\_HOME and PATH}
+	
+	\textbf{2.1 Locate the JDK installation directory}
+	
+	\begin{lstlisting}
+		Get-ChildItem "C:\Program Files\Eclipse Adoptium\" -Directory |
+		Select-Object Name, FullName
+	\end{lstlisting}
+	
+	Select the directory beginning with \texttt{jdk-25...}
+	
+	\vspace{4pt}
+	
+	\textbf{2.2 Set JAVA\_HOME and update system PATH}
+	
+	\begin{lstlisting}
+		$jdk = "C:\Program Files\Eclipse Adoptium\jdk-25.0.x-hotspot"
+		
+		[Environment]::SetEnvironmentVariable("JAVA_HOME", $jdk, "Machine")
+		
+		$machinePath = [Environment]::GetEnvironmentVariable("Path","Machine")
+		$newMachinePath = "$jdk\bin;$machinePath"
+		[Environment]::SetEnvironmentVariable("Path", $newMachinePath, "Machine")
+	\end{lstlisting}
+	
+	\vspace{4pt}
+	
+	\textbf{2.3 Refresh environment variables (no reboot required)}
+	
+	\begin{lstlisting}
+		$env:Path = [Environment]::GetEnvironmentVariable("Path","Machine") +
+		";" +
+		[Environment]::GetEnvironmentVariable("Path","User")
+		
+		$env:JAVA_HOME =
+		[Environment]::GetEnvironmentVariable("JAVA_HOME","Machine")
+	\end{lstlisting}
+	
+	\vspace{4pt}
+	
+	\textbf{2.4 Verify installation}
+	
+	\begin{lstlisting}
+		where.exe java
+		where.exe javac
+		java -version
+		javac -version
+		echo $env:JAVA_HOME
+	\end{lstlisting}
+	
+	The first path shown must reference the Eclipse Adoptium directory.
+	
+	\vspace{6pt}
+	\hrule
+	\vspace{10pt}
+	
+	% ============================================================
+	\subsection*{Step 3 — Install Visual Studio Code}
+	
+	\begin{lstlisting}
+		winget install -e --id Microsoft.VisualStudioCode --source winget
+	\end{lstlisting}
+	
+	Verify installation:
+	
+	\begin{lstlisting}
+		code --version
+	\end{lstlisting}
+	
+	If the command is not recognized, restart PowerShell.
+	
+	\vspace{6pt}
+	\hrule
+	\vspace{10pt}
+	
+	% ============================================================
+	\subsection*{Step 4 — Install Java Extension Pack}
+	
+	\begin{lstlisting}
+		code --install-extension vscjava.vscode-java-pack
+	\end{lstlisting}
+	
+	Optional explicit installations:
+	
+	\begin{lstlisting}
+		code --install-extension redhat.java
+		code --install-extension vscjava.vscode-maven
+		code --install-extension vscjava.vscode-gradle
+	\end{lstlisting}
+	
+	\vspace{6pt}
+	\hrule
+	\vspace{10pt}
+	
+	% ============================================================
+	\subsection*{Step 5 — Open and Run Week 1 Lab}
+	
+	\textbf{5.1 Open the project}
+	
+	\begin{lstlisting}
+		cd D:\courses\concerent\week1-lab
+		code .
+	\end{lstlisting}
+	
+	\vspace{4pt}
+	
+	\textbf{5.2 Compile and run manually}
+	
+	\begin{lstlisting}
+		cd D:\courses\concerent\week1-lab\lab1
+		javac *.java
+		java SingleThreadedServer
+	\end{lstlisting}
+	
+	In a second terminal:
+	
+	\begin{lstlisting}
+		java LoadTestClient
+	\end{lstlisting}
+	
+	\vspace{6pt}
+	\hrule
+	\vspace{10pt}
+	
+	% ============================================================
+	\subsection*{Step 6 — Sanity Test (Hello World)}
+	
+	\begin{lstlisting}
+		cd D:\courses\concerent\week1-lab\lab1
+		
+		@'
+		public class Hello {
+			public static void main(String[] args) {
+				System.out.println("Hello Java 25!");
+			}
+		}
+		'@ | Set-Content .\Hello.java
+		
+		javac Hello.java
+		java Hello
+	\end{lstlisting}
+	
+	Successful output confirms correct configuration.
+	
+	\vspace{6pt}
+	\hrule
+	\vspace{6pt}
+	
+	\begin{center}
+		\textit{A correct environment setup eliminates 90\% of concurrency debugging problems.}
+	\end{center}
+
+\end{document}

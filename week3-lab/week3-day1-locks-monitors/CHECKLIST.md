@@ -1,0 +1,7 @@
+- [ ] I can explain why `count++` is not atomic.
+- [ ] I can describe a check-then-act race using the bank-account demo.
+- [ ] I can fix a race using one shared monitor.
+- [ ] I can explain why `synchronized (new Object())` does NOT synchronize.
+- [ ] I can compare a `synchronized` method with a `synchronized` block.
+- [ ] I can distinguish BLOCKED, WAITING, and TIMED_WAITING.
+- [ ] I can explain why Java intrinsic locks are reentrant.

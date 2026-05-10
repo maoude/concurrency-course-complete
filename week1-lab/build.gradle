@@ -31,4 +31,67 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    testLogging { events "passed", "skipped", "failed" }
+}
+
+// Instructor solution keys are excluded by default.
+// Include them with: gradlew -Pinstructor=true <task>
+def instructorMode = project.hasProperty('instructor') &&
+                     project.property('instructor').toString() == 'true'
+
+sourceSets {
+    main {
+        java {
+            if (!instructorMode) { exclude '**/solutions/**' }
+        }
+    }
+}
+
+// Run ONLY the Student* grading suite with full output.
+// Usage:  gradlew studentCheck
+//         gradlew studentCheck --tests "StudentWeek1Part4*"
+tasks.register('studentCheck', Test) {
+    group       = 'verification'
+    description = 'Run only the Student* grading tests with verbose output.'
+    useJUnitPlatform()
+    filter { includeTestsMatching 'edu.lu.concurrency.*.exercises.StudentWeek*' }
+    testLogging {
+        events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+        showStandardStreams = true
+        exceptionFormat    = 'full'
+    }
+}
+
+// -------------------------------------------------------------------
+// Instructor solutions are excluded from the default compile.
+// Pass -Pinstructor=true to include them.
+// -------------------------------------------------------------------
+def instructorMode = project.hasProperty("instructor") &&
+                     project.property("instructor").toString() == "true"
+
+sourceSets {
+    main {
+        java {
+            if (!instructorMode) {
+                exclude "**/solutions/**"
+            }
+        }
+    }
+}
+
+// -------------------------------------------------------------------
+// `gradlew studentCheck` runs ONLY the Student*Test grading suite.
+// -------------------------------------------------------------------
+tasks.register("studentCheck", Test) {
+    group = "verification"
+    description = "Run only the Student* grading tests with verbose output."
+    useJUnitPlatform()
+    filter {
+        includeTestsMatching "edu.lu.concurrency.*.exercises.StudentWeek*"
+    }
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+        showStandardStreams = true
+        exceptionFormat = "full"
+    }
 }

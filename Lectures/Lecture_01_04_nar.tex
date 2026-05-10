@@ -1,0 +1,333 @@
+\documentclass[11pt]{beamer}
+
+% ============================================================
+% Theme
+% ============================================================
+\usetheme{Madrid}
+\usecolortheme{seahorse}
+\setbeamertemplate{navigation symbols}{}
+
+% ============================================================
+% Encoding
+% ============================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+% ============================================================
+% Packages
+% ============================================================
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+
+\lstset{
+	basicstyle=\ttfamily\small,
+	frame=single,
+	breaklines=true,
+	columns=fullflexible,
+	keywordstyle=\color{blue},
+	commentstyle=\color{gray},
+	stringstyle=\color{red},
+	showstringspaces=false
+}
+
+% ============================================================
+% Title
+% ============================================================
+\title{Concurrency \& Distributed Systems}
+\subtitle{Week 1 --- Part 4: Measurement-Driven Engineering: EnhancedLoadClient}
+\author{Dr. Mohamad Aoude}
+\institute{Lebanese University \\ Faculty of Engineering}
+\date{\today}
+
+\begin{document}
+	
+	% ============================================================
+	\begin{frame}
+		\titlepage
+	\end{frame}
+	
+	% ============================================================
+	\section{Why We Need a Real Load Client}
+	
+	% ------------------------------------------------------------
+	\begin{frame}{Demo is Not Enough}
+		Previously:
+		\begin{itemize}
+			\item We ran a simple LoadClient
+			\item We observed “it feels slower”
+			\item We guessed performance
+		\end{itemize}
+		
+
+		
+		\begin{alertblock}{Problem}
+			Guessing is not engineering.
+		\end{alertblock}
+
+		
+		\begin{block}{Goal}
+			We now measure:
+			\begin{itemize}
+				\item p50 latency
+				\item p95 latency
+				\item Throughput (requests/sec)
+			\end{itemize}
+		\end{block}
+	\end{frame}
+	
+	% ============================================================
+	\section{What EnhancedLoadClient Measures}
+	
+	% ------------------------------------------------------------
+	\begin{frame}{Latency Percentiles}
+		\textbf{p50 (Median)}
+		\begin{itemize}
+			\item 50\% of users are faster than this
+			\item Represents “typical experience”
+		\end{itemize}
+		
+
+		
+		\textbf{p95 (Tail)}
+		\begin{itemize}
+			\item 95\% of users are faster
+			\item Slowest 5\% determine perceived quality
+		\end{itemize}
+
+		
+		\begin{alertblock}{Critical Insight}
+			High throughput with bad p95 = bad system.
+		\end{alertblock}
+	\end{frame}
+	
+	% ------------------------------------------------------------
+	\begin{frame}{Throughput}
+		\[
+		\text{Throughput} =
+		\frac{\text{Total Requests}}{\text{Total Time}}
+		\]
+
+		
+		If:
+		\begin{itemize}
+			\item 500 requests completed
+			\item in 2 seconds
+		\end{itemize}
+		
+		\[
+		Throughput = 250 \text{ req/sec}
+		\]
+
+		
+		\begin{block}{Remember}
+			Latency measures individual experience.  
+			Throughput measures system capacity.
+		\end{block}
+	\end{frame}
+	
+	% ============================================================
+	\section{How To Run It}
+	
+	% ------------------------------------------------------------
+	\begin{frame}[fragile]{Step 1: Start Server}
+		Terminal 1:
+		
+		\begin{lstlisting}[language=bash]
+			javac ImprovedMultiThreadedServer.java
+			java ImprovedMultiThreadedServer
+		\end{lstlisting}
+	\end{frame}
+	
+	% ------------------------------------------------------------
+	\begin{frame}[fragile]{Step 2: Compile Client}
+		Terminal 2:
+		
+		\begin{lstlisting}[language=bash]
+			javac EnhancedLoadClient.java
+		\end{lstlisting}
+	\end{frame}
+	
+	% ------------------------------------------------------------
+	\begin{frame}[fragile]{Step 3: Run Experiments}
+		
+		Light load:
+		
+		\begin{lstlisting}[language=bash]
+			java EnhancedLoadClient --clients=10 --requests=10
+		\end{lstlisting}
+
+		
+		Medium load:
+		
+		\begin{lstlisting}[language=bash]
+			java EnhancedLoadClient --clients=50 --requests=20
+		\end{lstlisting}
+
+		
+		Heavy load:
+		
+		\begin{lstlisting}[language=bash]
+			java EnhancedLoadClient --clients=200 --requests=20
+		\end{lstlisting}
+	\end{frame}
+	
+	% ============================================================
+	\section{What Students Must Observe}
+	
+	% ------------------------------------------------------------
+	\begin{frame}{Single-Threaded Server}
+		Expected behavior:
+		
+		\begin{itemize}
+			\item Latency grows linearly
+			\item p95 extremely high
+			\item Throughput capped
+			\item CPU mostly idle
+		\end{itemize}
+
+		
+		\begin{alertblock}
+			Queue formation dominates.
+		\end{alertblock}
+	\end{frame}
+	
+	% ------------------------------------------------------------
+	\begin{frame}{Multi-Threaded Server}
+		Expected behavior:
+		
+		\begin{itemize}
+			\item Latency collapses initially
+			\item Throughput increases significantly
+			\item CPU rises moderately
+		\end{itemize}
+
+		
+		Then push further:
+		
+		\begin{itemize}
+			\item p95 increases again
+			\item Throughput plateaus
+			\item CPU spikes
+		\end{itemize}
+	\end{frame}
+	
+	% ============================================================
+	\section{Sweet Spot Concept}
+	
+	% ------------------------------------------------------------
+	\begin{frame}{Why Too Many Threads Hurt}
+		
+		\textbf{Three causes:}
+		
+		\begin{itemize}
+			\item Context switching overhead
+			\item Memory overhead (stack per thread)
+			\item Lock contention
+		\end{itemize}
+
+		
+		\[
+		\text{Optimal Threads}
+		\approx
+		\text{cores} \times
+		\left(1 + \frac{Wait}{Compute}\right)
+		\]
+	\end{frame}
+	
+	% ============================================================
+	\section{Lab Instructions}
+	
+	% ------------------------------------------------------------
+	\begin{frame}{Lab 1.1 Requirements}
+		
+		Students must submit:
+		
+		\begin{itemize}
+			\item Measurement table (p50, p95, throughput)
+			\item At least 3 pool sizes tested
+			\item CSV export file
+			\item 5--8 sentence engineering explanation
+		\end{itemize}
+	\end{frame}
+	
+	% ------------------------------------------------------------
+	\begin{frame}{Required Measurement Table}
+		
+		\begin{center}
+			\begin{tabular}{lccc}
+				Load & p50 & p95 & Throughput \\
+				\hline
+				Light (10) &  &  &  \\
+				Medium (50) &  &  &  \\
+				Heavy (100) &  &  &  \\
+			\end{tabular}
+		\end{center}
+
+		
+		\begin{alertblock}
+			No numbers = no credit.
+		\end{alertblock}
+	\end{frame}
+	
+	% ============================================================
+	\section{Interpretation Questions}
+	
+	% ------------------------------------------------------------
+	\begin{frame}{Students Must Answer}
+		
+		\begin{enumerate}
+			\item Why did latency drop with threads?
+			\item Why did p95 increase under heavy load?
+			\item Why didn’t throughput grow infinitely?
+			\item Was the system I/O-bound or CPU-bound?
+		\end{enumerate}
+
+		
+		\begin{block}{Engineering Language Required}
+			Use:
+			\begin{itemize}
+				\item queue
+				\item overlap
+				\item scheduling overhead
+				\item saturation
+			\end{itemize}
+		\end{block}
+	\end{frame}
+	
+	% ============================================================
+	\section{Final Synthesis}
+	
+	% ------------------------------------------------------------
+	\begin{frame}{What This Demonstrates}
+		
+		\begin{itemize}
+			\item Concurrency hides waiting.
+			\item Concurrency does NOT create CPU power.
+			\item Tail latency reveals overload.
+			\item Measurement drives architecture decisions.
+		\end{itemize}
+
+		
+		\begin{alertblock}
+			If you cannot measure it,  
+			you cannot engineer it.
+		\end{alertblock}
+	\end{frame}
+	
+	% ------------------------------------------------------------
+	\begin{frame}{Next Step}
+		
+		\Large
+		What happens when threads share mutable state?
+
+		
+		\begin{alertblock}
+			Next Lecture: Race Conditions, Visibility, and Deadlocks.
+		\end{alertblock}
+		
+	\end{frame}
+	
+\end{document}

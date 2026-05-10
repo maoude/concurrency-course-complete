@@ -1,0 +1,729 @@
+\documentclass[11pt,a4paper]{article}
+
+% -------------------------------
+% Encoding & fonts (pdflatex-safe)
+% -------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+% -------------------------------
+% Layout
+% -------------------------------
+\usepackage[
+a4paper,
+left=0.3in,
+right=0.3in,
+top=0.75in,
+bottom=1in
+]{geometry}
+
+% -------------------------------------
+% TikZ
+% -------------------------------------
+\usepackage{tikz}
+\usetikzlibrary{
+	positioning,
+	calc,
+	arrows.meta,
+	decorations.pathreplacing,
+	shapes.geometric
+}
+
+% -------------------------------
+% Tables, lists, colors
+% -------------------------------
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{makecell}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+% -------------------------------
+% Math
+% -------------------------------
+\usepackage{amsmath,amssymb}
+
+% -------------------------------
+% Header & Footer
+% -------------------------------
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+
+\setlength{\headheight}{28pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+
+\fancyhead[L]{\textbf{Lebanese University\\ULFG II - 1h30}}
+\fancyhead[C]{\textbf{Concurrent Programming\\Midterm Exam}}
+\fancyhead[R]{\textbf{Date: 29/04/2026\\Closed Book Exam}}
+
+\fancyfoot[L]{Dr M. AOUDE}
+\fancyfoot[C]{}
+\fancyfoot[R]{\thepage/\pageref{LastPage}}
+
+% -------------------------------
+% Helpers & macros
+% -------------------------------
+\newcounter{qnum}
+
+\newcommand{\Q}{%
+	\stepcounter{qnum}%
+	\noindent\textbf{Q\theqnum. }%
+}
+
+\newcommand{\chkraw}[1]{%
+	\tikz[baseline=(b.center)]{
+		\node[
+		draw,
+		minimum width=#1,
+		minimum height=#1,
+		inner sep=0pt
+		] (b) {};
+	}%
+}
+
+\newcommand{\ansrow}[1]{%
+	#1 & \chkraw{4mm} & \chkraw{4mm} & \chkraw{4mm} & \chkraw{4mm} \\ \hline
+}
+
+\newcommand{\key}[1]{\underline{#1}}
+
+% -------------------------------
+% Listings: Java / Concurrent Programming Style
+% -------------------------------
+\usepackage{listings}
+
+\definecolor{codebg}{RGB}{245,245,245}
+\definecolor{codeborder}{RGB}{210,210,210}
+
+\lstdefinestyle{java}{
+	language=Java,
+	backgroundcolor=\color{codebg},
+	basicstyle=\ttfamily\small,
+	frame=single,
+	rulecolor=\color{codeborder},
+	showstringspaces=false,
+	breaklines=true,
+	keywordstyle=\color{blue!70!black}\bfseries,
+	commentstyle=\itshape\color{gray!70!black},
+	stringstyle=\color{brown!70!black},
+	columns=fullflexible,
+	tabsize=2
+}
+
+\lstset{style=java}
+
+% Safe inline code
+\DeclareRobustCommand{\code}[1]{\texttt{\detokenize{#1}}}
+
+% -------------------------------
+% MCQ Choices
+% -------------------------------
+\newcommand{\choices}[4]{%
+	\setlength{\tabcolsep}{4pt}%
+	\renewcommand{\arraystretch}{1.15}%
+	\begin{tabular}{|p{0.46\linewidth}|p{0.46\linewidth}|}
+		\hline
+		A) #1 & B) #2 \\ \hline
+		C) #3 & D) #4 \\ \hline
+	\end{tabular}%
+}
+
+\begin{document}
+	% -------------------------------
+	% QCM Answer Sheet
+	% -------------------------------
+	\begin{center}
+		\Large \textbf{QCM Answer Sheet (1–55)}\\[4pt]
+		\small Mark your answer with \textbf{X} inside the chosen box.
+	\end{center}
+	
+	\noindent
+	\begin{minipage}[t]{0.49\linewidth}
+		\renewcommand{\arraystretch}{1.7}
+		\begin{tabular}{|>{\centering\arraybackslash}m{1.3cm}
+				|>{\centering\arraybackslash}m{1.3cm}
+				|>{\centering\arraybackslash}m{1.3cm}
+				|>{\centering\arraybackslash}m{1.3cm}
+				|>{\centering\arraybackslash}m{1.3cm}|}
+			\hline
+			\textbf{\#} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} \\ \hline
+			\ansrow{1}\ansrow{2}\ansrow{3}\ansrow{4}\ansrow{5}
+			\ansrow{6}\ansrow{7}\ansrow{8}\ansrow{9}\ansrow{10}
+			\ansrow{11}\ansrow{12}\ansrow{13}\ansrow{14}\ansrow{15}
+			\ansrow{16}\ansrow{17}\ansrow{18}\ansrow{19}\ansrow{20}
+			\ansrow{21}\ansrow{22}\ansrow{23}\ansrow{24}\ansrow{25}
+			
+		\end{tabular}
+	\end{minipage}
+	\hfill
+	\begin{minipage}[t]{0.49\linewidth}
+		\renewcommand{\arraystretch}{1.7}
+		\begin{tabular}{|>{\centering\arraybackslash}m{1.3cm}
+				|>{\centering\arraybackslash}m{1.3cm}
+				|>{\centering\arraybackslash}m{1.3cm}
+				|>{\centering\arraybackslash}m{1.3cm}
+				|>{\centering\arraybackslash}m{1.3cm}|}
+			\hline
+			\textbf{\#} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} \\ \hline
+			\ansrow{26}\ansrow{27}\ansrow{28}\ansrow{29}\ansrow{30}
+			\ansrow{31}\ansrow{32}\ansrow{33}
+			\ansrow{34}\ansrow{35}\ansrow{36}\ansrow{37}\ansrow{38}
+			\ansrow{39}\ansrow{40}\ansrow{41}\ansrow{42}\ansrow{43}
+			\ansrow{44}\ansrow{45}\ansrow{46}\ansrow{47}\ansrow{48}\ansrow{49}
+			\ansrow{50}
+		\end{tabular}
+	\end{minipage}
+	
+	\newpage
+	\begin{center}
+		{\Large \textbf{Exercise I  -- MCQ Quiz (55 Questions)}}\\[2mm]
+	\end{center}
+	
+	\vspace{2mm}
+
+\Q In a single-threaded server, what happens when one request is being processed? \textbf{(Que se passe-t-il dans un serveur mono-thread lorsqu’une requête est en cours de traitement ?) }
+
+\choices
+{Other clients are immediately processed in parallel \textbf{(Les autres clients sont immédiatement traités en parallèle)}}
+{New clients must wait until the current request finishes \textbf{(Les nouveaux clients doivent attendre la fin de la requête en cours)}}
+{The server automatically creates new threads \textbf{(Le serveur crée automatiquement de nouveaux threads)}}
+{The operating system rejects all new clients \textbf{(Le système d’exploitation rejette tous les nouveaux clients)}}
+
+\Q What is the main weakness of this loop? \textbf{(Quelle est la principale faiblesse de cette boucle ?) }
+
+\begin{lstlisting}[language=Java]
+	while (true) {
+		Socket client = serverSocket.accept();
+		handleRequest(client);
+	}
+\end{lstlisting}
+
+\choices
+{It processes only one request at a time \textbf{(Elle traite une seule requête à la fois)}}
+{It cannot accept sockets \textbf{(Elle ne peut pas accepter des sockets)}}
+{It requires a database \textbf{(Elle nécessite une base de données)}}
+{It always crashes under one client \textbf{(Elle plante toujours avec un seul client)}}
+
+\Q When 50 clients connect to a single-threaded server, the main problem is usually: \textbf{(Lorsque 50 clients se connectent à un serveur mono-thread, quel est le principal problème ?) }
+
+\choices
+{Lower memory usage \textbf{(Utilisation mémoire plus faible)}}
+{Queue growth and increasing latency \textbf{(Croissance de la file d’attente et augmentation de la latence)}}
+{No CPU usage \textbf{(Aucune utilisation du CPU)}}
+{Faster response time \textbf{(Temps de réponse plus rapide)}}
+
+\Q The expression \code{throughput = requests / second} measures: \textbf{(Que mesure l’expression débit = requêtes / seconde ?) }
+
+\choices
+{How many requests are completed per second \textbf{(Le nombre de requêtes traitées par seconde)}}
+{How many threads exist \textbf{(Le nombre de threads existants)}}
+{How many files are open \textbf{(Le nombre de fichiers ouverts)}}
+{How much RAM is installed \textbf{(La quantité de mémoire RAM installée)}}
+
+\Q For I/O-bound workloads, increasing the number of threads can help because: \textbf{(Pour les charges I/O, pourquoi augmenter le nombre de threads peut aider ?) }
+
+\choices
+{Threads can make progress while others are waiting for I/O \textbf{(Les threads peuvent progresser pendant que d’autres attendent les entrées/sorties)}}
+{CPU instructions become mathematically free \textbf{(Les instructions CPU deviennent gratuites mathématiquement)}}
+{Locks disappear automatically \textbf{(Les verrous disparaissent automatiquement)}}
+{Network latency becomes zero \textbf{(La latence réseau devient nulle)}}
+
+\Q What is the CPU-bound trap? \textbf{(Quel est le piège des tâches liées au CPU ?) }
+
+\choices
+{Adding more threads always gives unlimited speedup \textbf{(Ajouter plus de threads donne toujours un gain illimité)}}
+{Adding too many threads to CPU-heavy work may not improve performance \textbf{(Ajouter trop de threads pour des tâches CPU peut ne pas améliorer les performances)}}
+{CPU-bound programs never use the CPU \textbf{(Les programmes CPU n’utilisent jamais le CPU)}}
+{Thread pools cannot run Java code \textbf{(Les pools de threads ne peuvent pas exécuter du code Java)}}
+
+\Q The engineering formula for thread pool tuning depends strongly on: \textbf{(De quoi dépend fortement le réglage d’un pool de threads ?) }
+
+\choices
+{The balance between waiting time and compute time \textbf{(L’équilibre entre temps d’attente et temps de calcul)}}
+{The color of the terminal \textbf{(La couleur du terminal)}}
+{The file name of the Java class \textbf{(Le nom du fichier Java)}}
+{The number of comments in the code \textbf{(Le nombre de commentaires dans le code)}}
+
+\Q Amdahl's Law explains: \textbf{(Que décrit la loi d’Amdahl ?) }
+
+\choices
+{The maximum possible speedup when only part of a program is parallelizable \textbf{(Le gain maximal possible lorsqu’une partie seulement est parallélisable)}}
+{How to create a socket \textbf{(Comment créer un socket)}}
+{How to write SQL queries \textbf{(Comment écrire des requêtes SQL)}}
+{How to disable threads \textbf{(Comment désactiver les threads)}}
+
+\Q If a program has a large sequential part, then even infinite cores will: \textbf{(Si une grande partie est séquentielle, que se passe-t-il même avec des cœurs infinis ?) }
+
+\choices
+{Give unlimited speedup \textbf{(Donner un gain illimité)}}
+{Still be limited by the sequential part \textbf{(Rester limité par la partie séquentielle)}}
+{Remove all latency \textbf{(Supprimer toute latence)}}
+{Make synchronization unnecessary \textbf{(Rendre la synchronisation inutile)}}
+
+\Q In Little's Law, \(L\) represents: \textbf{(Dans la loi de Little, que représente L ?) }
+
+\choices
+{Average number of items in the system \textbf{(Nombre moyen d’éléments dans le système)}}
+{Number of CPU cores \textbf{(Nombre de cœurs CPU)}}
+{Length of the source code \textbf{(Longueur du code source)}}
+{Number of Java classes \textbf{(Nombre de classes Java)}}
+
+\Q Context switching cost refers to: \textbf{(À quoi correspond le coût de changement de contexte ?) }
+
+\choices
+{The overhead of switching the CPU from one thread to another \textbf{(Le coût du passage du CPU d’un thread à un autre)}}
+{The cost of buying a new computer \textbf{(Le coût d’achat d’un ordinateur)}}
+{The time needed to compile comments \textbf{(Le temps pour compiler les commentaires)}}
+{The size of the database \textbf{(La taille de la base de données)}}
+
+\Q What does p50 latency represent? \textbf{(Que représente la latence p50 ?) }
+
+\choices
+{The median response time \textbf{(Le temps de réponse médian)}}
+{The maximum possible response time \textbf{(Le temps de réponse maximal)}}
+{The number of threads \textbf{(Le nombre de threads)}}
+{The number of failed requests only \textbf{(Le nombre de requêtes échouées uniquement)}}
+	\Q What does p95 latency help reveal? \textbf{(Que révèle la latence p95 ?) }
+	
+	\choices
+	{Slow responses experienced by the worst 5 percent of requests \textbf{(Les réponses lentes subies par les 5\% pires requêtes)}}
+	{Only the fastest request \textbf{(Seulement la requête la plus rapide)}}
+	{The number of CPU cores \textbf{(Le nombre de cœurs CPU)}}
+	{The Java version \textbf{(La version de Java)}}
+	
+	\Q A critical section is: \textbf{(Qu’est-ce qu’une section critique ?) }
+	
+	\choices
+	{Code that accesses shared data and must be protected \textbf{(Code qui accède à des données partagées et doit être protégé)}}
+	{Code that is never executed \textbf{(Code qui n’est jamais exécuté)}}
+	{A section used only for printing titles \textbf{(Une section utilisée uniquement pour afficher des titres)}}
+	{A Java package name \textbf{(Un nom de package Java)}}
+	
+	\Q In Java, how can you create a thread? \textbf{(Comment peut-on créer un thread en Java ?) }
+	
+	\choices
+	{By extending Thread or implementing Runnable \textbf{(En étendant Thread ou en implémentant Runnable)}}
+	{By creating a Socket \textbf{(En créant un socket)}}
+	{By calling System.exit() \textbf{(En appelant System.exit())}}
+	{By using SQL queries \textbf{(En utilisant des requêtes SQL)}}
+	
+	\Q What happens when \code{start()} is called on a thread? \textbf{(Que se passe-t-il lorsqu’on appelle start() sur un thread ?) }
+	
+	\choices
+	{A new thread begins execution and calls run() \textbf{(Un nouveau thread commence l’exécution et appelle run())}}
+	{The program terminates \textbf{(Le programme se termine)}}
+	{The thread is deleted \textbf{(Le thread est supprimé)}}
+	{The CPU is stopped \textbf{(Le CPU s’arrête)}}
+	
+	\Q Calling \code{run()} directly instead of \code{start()}: \textbf{(Appeler run() directement au lieu de start() :) }
+	
+	\choices
+	{Executes in the current thread (no concurrency) \textbf{(S’exécute dans le thread courant (pas de concurrence))}}
+	{Creates multiple threads \textbf{(Crée plusieurs threads)}}
+	{Causes a deadlock \textbf{(Provoque un interblocage)}}
+	{Improves parallelism \textbf{(Améliore le parallélisme)}}
+	
+	\Q A race condition occurs when: \textbf{(Quand une condition de course se produit-elle ?) }
+	
+	\choices
+	{Multiple threads access shared data without proper synchronization \textbf{(Plusieurs threads accèdent à des données partagées sans synchronisation adéquate)}}
+	{Only one thread executes \textbf{(Un seul thread s’exécute)}}
+	{A program runs too fast \textbf{(Un programme s’exécute trop rapidement)}}
+	{A variable is constant \textbf{(Une variable est constante)}}
+	
+	\Q Consider:
+	\begin{lstlisting}[language=Java]
+		counter++;
+	\end{lstlisting}
+	
+	Why is this unsafe in multithreading? \textbf{(Pourquoi cela est-il dangereux en multithreading ?) }
+	
+	\choices
+	{It is not atomic and can be interrupted \textbf{(Ce n’est pas une opération atomique et elle peut être interrompue)}}
+	{It is too slow \textbf{(C’est trop lent)}}
+	{It uses too much memory \textbf{(Cela utilise trop de mémoire)}}
+	{It cannot compile \textbf{(Cela ne compile pas)}}
+	
+	\Q Race conditions are dangerous because: \textbf{(Pourquoi les conditions de course sont-elles dangereuses ?) }
+	
+	\choices
+	{They produce unpredictable results \textbf{(Elles produisent des résultats imprévisibles)}}
+	{They always crash immediately \textbf{(Elles provoquent toujours un crash immédiat)}}
+	{They prevent compilation \textbf{(Elles empêchent la compilation)}}
+	{They remove threads \textbf{(Elles suppriment les threads)}}
+	
+	\Q Mutual exclusion ensures that: \textbf{(Que garantit l’exclusion mutuelle ?) }
+	
+	\choices
+	{Only one thread accesses a critical section at a time \textbf{(Un seul thread accède à une section critique à la fois)}}
+	{All threads run simultaneously \textbf{(Tous les threads s’exécutent simultanément)}}
+	{No thread can run \textbf{(Aucun thread ne peut s’exécuter)}}
+	{Threads do not exist \textbf{(Les threads n’existent pas)}}
+	
+	\Q In Java, which keyword provides mutual exclusion? \textbf{(Quel mot-clé en Java fournit l’exclusion mutuelle ?) }
+	
+	\choices
+	{\code{synchronized} \textbf{(synchronized)}}
+	{\code{public} \textbf{(public)}}
+	{\code{static} \textbf{(static)}}
+	{\code{return} \textbf{(return)}}
+	
+\Q What is the main purpose of a lock? \textbf{(Quel est le but principal d’un verrou ?) }
+
+\choices
+{To prevent simultaneous access to shared resources \textbf{(Empêcher l’accès simultané aux ressources partagées)}}
+{To speed up printing \textbf{(Accélérer l’affichage)}}
+{To reduce memory usage \textbf{(Réduire l’utilisation mémoire)}}
+{To stop threads permanently \textbf{(Arrêter définitivement les threads)}}
+
+\Q A deadlock occurs when: \textbf{(Quand un interblocage se produit-il ?) }
+
+\choices
+{Threads wait forever for resources held by each other \textbf{(Les threads attendent indéfiniment des ressources détenues par d’autres)}}
+{Threads execute too fast \textbf{(Les threads s’exécutent trop rapidement)}}
+{Memory is full \textbf{(La mémoire est pleine)}}
+{A program ends \textbf{(Un programme se termine)}}
+
+\Q Which condition is required for deadlock? \textbf{(Quelle condition est nécessaire pour un interblocage ?) }
+
+\choices
+{Circular waiting \textbf{(Attente circulaire)}}
+{No threads \textbf{(Aucun thread)}}
+{Single variable \textbf{(Une seule variable)}}
+{Fast CPU \textbf{(CPU rapide)}}
+
+\Q Example of deadlock: \textbf{(Exemple d’interblocage :) }
+
+\choices
+{Thread A holds Lock1 and waits for Lock2, while Thread B holds Lock2 and waits for Lock1 \textbf{(Le thread A détient Lock1 et attend Lock2, tandis que le thread B détient Lock2 et attend Lock1)}}
+{A thread prints a message \textbf{(Un thread affiche un message)}}
+{A loop increments a variable \textbf{(Une boucle incrémente une variable)}}
+{A file is read \textbf{(Un fichier est lu)}}
+
+\Q One way to avoid deadlock is: \textbf{(Une façon d’éviter un interblocage est :) }
+
+\choices
+{Always acquire locks in the same order \textbf{(Toujours acquérir les verrous dans le même ordre)}}
+{Remove all threads \textbf{(Supprimer tous les threads)}}
+{Increase memory \textbf{(Augmenter la mémoire)}}
+{Use more print statements \textbf{(Utiliser plus d’instructions d’affichage)}}
+
+\Q Deadlock results in: \textbf{(Un interblocage entraîne :) }
+
+\choices
+{System freeze or blocked execution \textbf{(Blocage du système ou exécution figée)}}
+{Faster execution \textbf{(Exécution plus rapide)}}
+{Lower CPU usage only \textbf{(Seulement une baisse de l’utilisation CPU)}}
+{Compilation failure \textbf{(Échec de compilation)}}
+
+\Q What is visibility in concurrency? \textbf{(Qu’est-ce que la visibilité en concurrence ?) }
+
+\choices
+{Whether one thread sees updates made by another thread \textbf{(Si un thread voit les mises à jour faites par un autre thread)}}
+{How fast a thread runs \textbf{(La vitesse d’exécution d’un thread)}}
+{How many threads exist \textbf{(Le nombre de threads existants)}}
+{The size of memory \textbf{(La taille de la mémoire)}}
+
+\Q Without proper synchronization: \textbf{(Sans synchronisation adéquate :) }
+
+\choices
+{Threads may see stale values \textbf{(Les threads peuvent voir des valeurs obsolètes)}}
+{Threads always see latest values \textbf{(Les threads voient toujours les dernières valeurs)}}
+{Threads stop working \textbf{(Les threads cessent de fonctionner)}}
+{Program compiles faster \textbf{(Le programme compile plus rapidement)}}
+
+\Q Which keyword helps ensure visibility in Java? \textbf{(Quel mot-clé assure la visibilité en Java ?) }
+
+\choices
+{\code{volatile} \textbf{(volatile)}}
+{\code{int} \textbf{(int)}}
+{\code{class} \textbf{(class)}}
+{\code{main} \textbf{(main)}}
+
+\Q The Java Memory Model defines: \textbf{(Que définit le modèle mémoire Java ?) }
+
+\choices
+{Rules for how threads interact through memory \textbf{(Les règles d’interaction des threads via la mémoire)}}
+{Database schemas \textbf{(Les schémas de bases de données)}}
+{File system structure \textbf{(La structure du système de fichiers)}}
+{Network protocols \textbf{(Les protocoles réseau)}}
+
+\Q Happens-before relationship ensures: \textbf{(La relation happens-before garantit :) }
+
+\choices
+{Correct ordering and visibility of operations between threads \textbf{(Un ordre correct et la visibilité des opérations entre threads)}}
+{Faster compilation \textbf{(Une compilation plus rapide)}}
+{Lower memory usage \textbf{(Une utilisation mémoire réduite)}}
+{Thread deletion \textbf{(La suppression des threads)}}
+
+\Q The Producer-Consumer problem involves: \textbf{(Le problème producteur-consommateur implique :) }
+
+\choices
+{Producers generating data and consumers using it \textbf{(Des producteurs générant des données et des consommateurs les utilisant)}}
+{Only producers writing files \textbf{(Seulement des producteurs écrivant des fichiers)}}
+{Only consumers reading memory \textbf{(Seulement des consommateurs lisant la mémoire)}}
+{Threads that do not interact \textbf{(Des threads qui n’interagissent pas)}}
+
+\Q What structure is typically used between producer and consumer? \textbf{(Quelle structure est utilisée entre producteur et consommateur ?) }
+
+\choices
+{Shared buffer (queue) \textbf{(Tampon partagé (file d’attente))}}
+{File system \textbf{(Système de fichiers)}}
+{Stack trace \textbf{(Trace de pile)}}
+{Compiler \textbf{(Compilateur)}}
+
+\Q If the buffer is full, the producer should: \textbf{(Si le tampon est plein, le producteur doit :) }
+
+\choices
+{Wait \textbf{(Attendre)}}
+{Overwrite data \textbf{(Écraser les données)}}
+{Terminate immediately \textbf{(Se terminer immédiatement)}}
+{Ignore the buffer \textbf{(Ignorer le tampon)}}
+
+\Q If the buffer is empty, the consumer should: \textbf{(Si le tampon est vide, le consommateur doit :) }
+
+\choices
+{Wait \textbf{(Attendre)}}
+{Create data \textbf{(Créer des données)}}
+{Delete the buffer \textbf{(Supprimer le tampon)}}
+{Restart the program \textbf{(Redémarrer le programme)}}
+	\Q The main challenge in this problem is: \textbf{(Quel est le principal défi dans ce problème ?) }
+	
+	\choices
+	{Synchronization between threads \textbf{(La synchronisation entre les threads)}}
+	{Memory allocation only \textbf{(L’allocation mémoire uniquement)}}
+	{Compilation errors \textbf{(Les erreurs de compilation)}}
+	{File reading speed \textbf{(La vitesse de lecture des fichiers)}}
+	
+	\Q Condition variables are typically used with: \textbf{(Les variables de condition sont généralement utilisées avec :) }
+	
+	\choices
+	{Locks / mutexes \textbf{(Des verrous / mutex)}}
+	{Arrays \textbf{(Des tableaux)}}
+	{Files \textbf{(Des fichiers)}}
+	{Compilers \textbf{(Des compilateurs)}}
+	
+	\Q What problem do condition variables help solve? \textbf{(Quel problème les variables de condition aident-elles à résoudre ?) }
+	
+	\choices
+	{Busy waiting inefficiency \textbf{(L’inefficacité de l’attente active (busy waiting))}}
+	{Syntax errors \textbf{(Les erreurs de syntaxe)}}
+	{Memory leaks \textbf{(Les fuites mémoire)}}
+	{Compilation time \textbf{(Le temps de compilation)}}
+	
+	\Q One necessary condition for deadlock is: \textbf{(Quelle est une condition nécessaire pour un interblocage ?) }
+	
+	\choices
+	{Mutual exclusion \textbf{(Exclusion mutuelle)}}
+	{No threads \textbf{(Aucun thread)}}
+	{Infinite memory \textbf{(Mémoire infinie)}}
+	{No locks \textbf{(Aucun verrou)}}
+	
+	\Q Which is a deadlock prevention strategy? \textbf{(Quelle est une stratégie de prévention des interblocages ?) }
+	
+	\choices
+	{Lock ordering \textbf{(Ordonnancement des verrous)}}
+	{Increasing CPU speed \textbf{(Augmenter la vitesse du CPU)}}
+	{Reducing code size \textbf{(Réduire la taille du code)}}
+	{Removing variables \textbf{(Supprimer des variables)}}
+	
+	\Q Breaking circular wait prevents: \textbf{(Rompre l’attente circulaire permet d’éviter :) }
+	
+	\choices
+	{Deadlock \textbf{(Les interblocages)}}
+	{Race conditions \textbf{(Les conditions de course)}}
+	{Compilation errors \textbf{(Les erreurs de compilation)}}
+	{Thread creation \textbf{(La création de threads)}}
+	
+	\Q Resource allocation graphs are used to: \textbf{(Les graphes d’allocation de ressources sont utilisés pour :) }
+	
+	\choices
+	{Analyze deadlocks \textbf{(Analyser les interblocages)}}
+	{Compile programs \textbf{(Compiler des programmes)}}
+	{Store variables \textbf{(Stocker des variables)}}
+	{Manage files \textbf{(Gérer des fichiers)}}
+\Q Deadlock avoidance differs from prevention because: \textbf{(En quoi l’évitement de l’interblocage diffère-t-il de la prévention ?) }
+
+\choices
+{It dynamically checks safe states \textbf{(Il vérifie dynamiquement les états sûrs)}}
+{It removes all locks \textbf{(Il supprime tous les verrous)}}
+{It disables threads \textbf{(Il désactive les threads)}}
+{It ignores resources \textbf{(Il ignore les ressources)}}
+
+\Q Starvation occurs when: \textbf{(Quand la famine (starvation) se produit-elle ?) }
+
+\choices
+{A thread never gets access to resources \textbf{(Un thread n’obtient jamais l’accès aux ressources)}}
+{All threads finish quickly \textbf{(Tous les threads se terminent rapidement)}}
+{Memory is full \textbf{(La mémoire est pleine)}}
+{CPU is idle \textbf{(Le CPU est inactif)}}
+
+\Q Fairness in scheduling means: \textbf{(Que signifie l’équité dans l’ordonnancement ?) }
+
+\choices
+{All threads eventually get a chance to execute \textbf{(Tous les threads finissent par avoir une chance de s’exécuter)}}
+{Only one thread runs \textbf{(Un seul thread s’exécute)}}
+{Threads are removed \textbf{(Les threads sont supprimés)}}
+{Execution is random \textbf{(L’exécution est aléatoire)}}
+
+\Q Which mechanism helps reduce starvation? \textbf{(Quel mécanisme aide à réduire la famine ?) }
+
+\choices
+{Fair locks / scheduling policies \textbf{(Verrous équitables / politiques d’ordonnancement équitables)}}
+{Infinite loops \textbf{(Boucles infinies)}}
+{Removing threads \textbf{(Suppression des threads)}}
+{Increasing file size \textbf{(Augmenter la taille des fichiers)}}
+
+\Q Priority scheduling may cause: \textbf{(L’ordonnancement par priorité peut provoquer :) }
+
+\choices
+{Starvation of low-priority threads \textbf{(La famine des threads de faible priorité)}}
+{Compilation errors \textbf{(Des erreurs de compilation)}}
+{Memory leaks \textbf{(Des fuites mémoire)}}
+{No execution \textbf{(Aucune exécution)}}
+
+\Q Aging technique is used to: \textbf{(La technique de vieillissement est utilisée pour :) }
+
+\choices
+{Increase priority of waiting threads over time \textbf{(Augmenter la priorité des threads en attente avec le temps)}}
+{Delete old threads \textbf{(Supprimer les anciens threads)}}
+{Reduce memory \textbf{(Réduire la mémoire)}}
+{Stop execution \textbf{(Arrêter l’exécution)}}
+	
+	% ============================================================
+	\section*{Exercise II -- Code Tracing and Completion}
+	% ============================================================
+	
+	\textbf{Code Tracing: Race Condition}
+	
+	Consider the following Java code:
+	
+	\begin{lstlisting}[language=Java]
+		class Counter {
+			private int count = 0;
+			
+			public void increment() {
+				count++;
+			}
+			
+			public int getCount() {
+				return count;
+			}
+		}
+		
+		public class TestRace {
+			public static void main(String[] args) throws Exception {
+				Counter c = new Counter();
+				
+				Thread t1 = new Thread(() -> {
+					for (int i = 0; i < 1000; i++) {
+						c.increment();
+					}
+				});
+				
+				Thread t2 = new Thread(() -> {
+					for (int i = 0; i < 1000; i++) {
+						c.increment();
+					}
+				});
+				
+				t1.start();
+				t2.start();
+				
+				t1.join();
+				t2.join();
+				
+				System.out.println(c.getCount());
+			}
+		}
+	\end{lstlisting}
+	
+\textbf{Question II :}  
+What is the expected behavior of this program? Should the output always be \code{2000}? Explain briefly.
+\textbf{(Quel est le comportement attendu de ce programme ? La sortie doit-elle toujours être \code{2000} ? Expliquez brièvement.)}\vspace{12pt}
+	
+	
+	\noindent\makebox[\linewidth]{\dotfill}\par\vspace{6pt}
+	\vspace{0.5cm}
+	\noindent\makebox[\linewidth]{\dotfill}\par\vspace{6pt}
+	\vspace{0.5cm}
+	\noindent\makebox[\linewidth]{\dotfill}\par\vspace{6pt}
+	\vspace{0.5cm}
+	\noindent\makebox[\linewidth]{\dotfill}\par\vspace{6pt}
+	\vspace{0.5cm}
+	\noindent\makebox[\linewidth]{\dotfill}\par\vspace{6pt}
+	\vspace{0.5cm}
+	\noindent\makebox[\linewidth]{\dotfill}\par\vspace{6pt}
+	\vspace{0.5cm}
+	\noindent\makebox[\linewidth]{\dotfill}\par\vspace{6pt}
+	\vspace{0.5cm}
+	\noindent\makebox[\linewidth]{\dotfill}\par
+	\vspace{0.5cm}
+	
+	% ============================================================
+	\textbf{Question III:}  
+% ============================================================
+\textbf{Question III:}  
+\textbf{Code Completion: Thread-Safe Bank Account}
+\textbf{(Complétion de code : Compte bancaire thread-safe)}
+
+We want the following behavior:
+\textbf{(On souhaite le comportement suivant :)}
+
+\begin{itemize}
+	\item Two threads perform deposits on the same bank account.
+	\textbf{(Deux threads effectuent des dépôts sur le même compte bancaire.)}
+	
+	\item The final balance must always be correct.
+	\textbf{(Le solde final doit toujours être correct.)}
+	
+	\item No race condition should occur.
+	\textbf{(Aucune condition de course ne doit se produire.)}
+\end{itemize}
+
+Complete the missing part of the code.
+\textbf{(Complétez la partie manquante du code.)}
+
+\begin{lstlisting}[language=Java]
+	class BankAccount {
+		private int balance = 0;
+		
+		public void deposit(int amount) {
+			// TODO: add the missing synchronization code here
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			balance += amount;
+		}
+		
+		public int getBalance() {
+			return balance;
+		}
+	}
+\end{lstlisting}
+
+\textbf{Required:}  
+Rewrite only the \code{deposit()} method so that the account becomes thread-safe.  
+\textbf{(Réécrivez uniquement la méthode \code{deposit()} pour rendre le compte thread-safe.)}
+
+\vspace{3cm}
+\end{document}
