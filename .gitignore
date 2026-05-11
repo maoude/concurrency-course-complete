@@ -70,6 +70,3 @@ replay_pid*
 /Lectures/*.toc
 /Lectures/*.vrb
 
-# Internal planning/review docs (do not publish)
-/WEEK5_COHERENCE_REVIEW.md
-/LAB_MANUALS_STATUS.md
