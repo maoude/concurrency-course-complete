@@ -26,7 +26,7 @@ code .
 
 | Path | Purpose |
 | --- | --- |
-| `Lectures/` | Lecture PDFs and setup material. LaTeX source files are not published. |
+| `Lectures/` | Lecture PDFs and setup material.  |
 | `week1-lab/` | Week 1 foundations, waiting, servers, benchmarking, Amdahl and Karp-Flatt. |
 | `week2-lab/week2-day1-threads/` | Thread basics, lifecycle, coordination, futures, and race-condition basics. |
 | `week3-lab/week3-day1-race-monitors-lock-identity/` | Main Week 3 lab on races, monitors, lock identity, states, and reentrancy. |
