@@ -51,9 +51,11 @@ sourceSets {
 tasks.register('studentCheck', Test) {
     group = 'verification'
     description = 'Run only the Student* grading tests with verbose output.'
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
     useJUnitPlatform()
     filter {
-        includeTestsMatching 'edu.lu.concurrency.*.exercises.StudentWeek*'
+        includeTestsMatching '*StudentWeek*'
     }
     testLogging {
         events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
@@ -72,14 +74,14 @@ tasks.register('runDemo01', JavaExec) {
     mainClass = 'edu.lu.concurrency.week3.day1.part1_races.Demo01_BrokenCounterRace'
 }
 
-tasks.register('runDemo06', JavaExec) {
+tasks.register('runDemo08', JavaExec) {
     group = 'demos'
     classpath = sourceSets.main.runtimeClasspath
-    mainClass = 'edu.lu.concurrency.week3.day1.part3_lock_identity.Demo06_LockIdentityTrap'
+    mainClass = 'edu.lu.concurrency.week3.day1.part3_lock_identity.Demo08_LockIdentityTrap'
 }
 
-tasks.register('runDemo07', JavaExec) {
+tasks.register('runDemo09', JavaExec) {
     group = 'demos'
     classpath = sourceSets.main.runtimeClasspath
-    mainClass = 'edu.lu.concurrency.week3.day1.part4_states.Demo07_BlockedVsWaiting'
+    mainClass = 'edu.lu.concurrency.week3.day1.part4_states.Demo09_BlockedVsWaiting'
 }

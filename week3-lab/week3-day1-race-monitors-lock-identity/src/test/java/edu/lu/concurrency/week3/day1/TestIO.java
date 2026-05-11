@@ -1,0 +1,37 @@
+/*
+ * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 3
+ * Lab Title: Day 1 - Locks, Monitors and Reentrancy
+ * ================================================================
+ */
+
+package edu.lu.concurrency.week3.day1;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
+
+public final class TestIO {
+
+    public static String captureStdout(ThrowingRunnable r) throws Exception {
+        PrintStream old = System.out;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(baos, true, StandardCharsets.UTF_8);
+        try {
+            System.setOut(ps);
+            r.run();
+        } finally {
+            System.setOut(old);
+        }
+        return baos.toString(StandardCharsets.UTF_8);
+    }
+
+    @FunctionalInterface
+    public interface ThrowingRunnable {
+        void run() throws Exception;
+    }
+
+    private TestIO() {}
+}

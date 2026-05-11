@@ -1,4 +1,4 @@
-﻿# Week 2  Day 1 Lab  
+# Week 2  Day 1 Lab  
 ## Threads: Creation, Lifecycle & Scheduling Reality
 
 This lab supports:
@@ -16,9 +16,27 @@ This lab supports:
 - NEW  RUNNABLE  BLOCKED  WAITING  TIMED_WAITING  TERMINATED
 - BLOCKED vs WAITING
 - join() vs sleep()
+- Interrupt/cancellation handling
 - Priority experiment
 - Thread dump reading
 - Sleep does NOT release locks
+
+## Part 3  Coordination
+- join() correctness and happens-before
+- join(timeout) pitfall
+
+### Core vs Preview
+
+Core Week 2 material is thread creation, lifecycle, `join()` vs `sleep()`,
+thread states, interruption, and scheduler reality.
+
+Preview material appears later in this lab but belongs conceptually to
+future syllabus weeks:
+
+- Semaphore-based bounded waiting room
+- Callable/Future result retrieval
+- CompletionService / invokeAny / polling futures
+- Race-condition demos
 
 ---
 
@@ -73,6 +91,13 @@ From now on, use only:
 
     .\gradlew.bat clean test
 
+Run only implemented student exercise tests:
+
+    .\gradlew.bat studentCheck
+
+At the moment Week 2 has no `StudentWeek2*` grading tests yet; see
+`EXERCISES.md` for the current status matrix.
+
 If dependencies fail:
 
     .\gradlew.bat --stop
@@ -89,6 +114,9 @@ Compile:
 Example run:
 
     java -cp .\build\classes\java\main edu.lu.concurrency.week2.day1.part1_basics.Demo04_Interleaving
+    java -cp .\build\classes\java\main edu.lu.concurrency.week2.day1.part2_lifecycle.Demo15_InterruptedThreadCancellation
+    java -cp .\build\classes\java\main edu.lu.concurrency.week2.day1.part3_coordination.Demo22_SemaphoreBarberShop
+    java -cp .\build\classes\java\main edu.lu.concurrency.week2.day1.part3_coordination.Demo23_CallableAndFuture
 
 ---
 
@@ -118,6 +146,10 @@ Look for:
    - Why run() does not create a new thread
    - Why sleep is unreliable
    - Difference between BLOCKED and WAITING
+   - What interruption does and why swallowed interrupts are bugs
+
+See `EXERCISES.md` and `CHECKLIST.md` for the normalized student-task
+view.
 
 ---
 

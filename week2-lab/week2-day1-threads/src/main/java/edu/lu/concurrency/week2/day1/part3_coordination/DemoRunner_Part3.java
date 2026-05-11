@@ -36,11 +36,13 @@
  *
  * Key conceptual arc of Part 3:
  *
- *     Demo14 → sleep() is statistically unsafe
- *     Demo15 → join() guarantees completion
- *     Demo16 → sleep() does not guarantee required state
- *     Demo17 → join() establishes happens-before visibility
- *     Demo18 → join(timeout) is NOT completion
+ *     Demo17 → sleep() is statistically unsafe
+ *     Demo18 → join() guarantees completion
+ *     Demo19 → sleep() does not guarantee required state
+ *     Demo20 → join() establishes happens-before visibility
+ *     Demo21 → join(timeout) is NOT completion
+ *     Demo22 → Semaphore-based coordination and bounded waiting room
+ *     Demo23 → Callable/Future result retrieval and failure reporting
  *
  * Together, they build a complete mental model of:
  *
@@ -64,43 +66,90 @@ public final class DemoRunner_Part3 {
 
         /*
          * --------------------------------------------------------
-         * Demo 14: Statistical failure of sleep()
+         * Demo 17: Statistical failure of sleep()
          * --------------------------------------------------------
          * Shows probabilistic correctness breakdown.
          */
-        Demo14_SleepVsJoinFailure.main(new String[0]);
+        Demo17_SleepVsJoinFailure.main(new String[0]);
 
         /*
          * --------------------------------------------------------
-         * Demo 15: Deterministic correctness with join()
+         * Demo 18: Deterministic correctness with join()
          * --------------------------------------------------------
          * Demonstrates completion-based coordination.
          */
-        Demo15_JoinCorrectness.main(new String[0]);
+        Demo18_JoinCorrectness.main(new String[0]);
 
         /*
          * --------------------------------------------------------
-         * Demo 16: sleep() does not guarantee state progression
+         * Demo 19: sleep() does not guarantee state progression
          * --------------------------------------------------------
          * Highlights ordering + visibility misconceptions.
          */
-        Demo16_SleepDoesNotGuaranteeOrder.main(new String[0]);
+        Demo19_SleepDoesNotGuaranteeOrder.main(new String[0]);
 
         /*
          * --------------------------------------------------------
-         * Demo 17: happens-before via join()
+         * Demo 20: happens-before via join()
          * --------------------------------------------------------
          * Demonstrates JMM visibility guarantee without volatile.
          */
-        Demo17_HappensBeforeJoin.main(new String[0]);
+        Demo20_HappensBeforeJoin.main(new String[0]);
 
         /*
          * --------------------------------------------------------
-         * Demo 18: join(timeout) pitfall
+         * Demo 21: join(timeout) pitfall
          * --------------------------------------------------------
          * Shows bounded waiting ≠ completion guarantee.
          */
-        Demo18_JoinTimeoutPitfall.main(new String[0]);
+        Demo21_JoinTimeoutPitfall.main(new String[0]);
+
+        /*
+         * --------------------------------------------------------
+         * Demo 22: Semaphore-based coordination
+         * --------------------------------------------------------
+         * Demonstrates bounded waiting-room capacity and a single
+         * barber chair using semaphores.
+         */
+        Demo22_SemaphoreBarberShop.main(new String[0]);
+
+        /*
+         * --------------------------------------------------------
+         * Demo 23: Callable / Future
+         * --------------------------------------------------------
+         * Demonstrates background task execution with explicit result
+         * retrieval and failure handling.
+         */
+        Demo23_CallableAndFuture.main(new String[0]);
+
+        /*
+         * --------------------------------------------------------
+         * Demo 24: Parallel Futures and isDone() Polling
+         * --------------------------------------------------------
+         * Submits two Callable tasks to a 2-thread pool and polls
+         * with isDone() while the main thread does other work.
+         * Shows that parallel tasks take max(t1,t2), not t1+t2.
+         */
+        Demo24_ParallelFuturesPolling.main(new String[0]);
+
+        /*
+         * --------------------------------------------------------
+         * Demo 25: invokeAny() User Validation Race
+         * --------------------------------------------------------
+         * Submits LDAP and DB validators as Callable tasks and
+         * returns the first successful result. Also demonstrates
+         * the all-fail path where invokeAny throws ExecutionException.
+         */
+        Demo25_InvokeAnyUserValidation.main(new String[0]);
+
+        /*
+         * --------------------------------------------------------
+         * Demo 26: CompletionService Report Processing
+         * --------------------------------------------------------
+         * Uses ExecutorCompletionService so a processor thread drains
+         * results as tasks complete (completion order, not submit order).
+         */
+        Demo26_CompletionServiceReportProcessing.main(new String[0]);
 
         /*
          * Final separator.

@@ -11,7 +11,7 @@
  * ================================================================
  * EXERCISE W3.P3.Ex1 - Fix BadCounter In Place
  * ----------------------------------------------------------------
- * Goal:        Repair Demo06's BadCounter pattern. The shape of the
+ * Goal:        Repair Demo08's BadCounter pattern. The shape of the
  *              class must stay the same (one increment(), one getCount()),
  *              but the lock must coordinate threads.
  *

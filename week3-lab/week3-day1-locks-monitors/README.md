@@ -1,6 +1,14 @@
 # Week 3 - Day 1 Lab
 ## Race Conditions, Monitors, Lock Identity & Reentrancy
 
+> DEPRECATED: this folder is now a legacy/demo archive.
+>
+> Use the canonical Week 3 student lab:
+>
+> `../week3-day1-race-monitors-lock-identity`
+>
+> Migration status is tracked in `../WEEK3_MIGRATION_MAP.md`.
+
 This lab continues directly from Week 2 Part 4 (race conditions) and goes
 deep on `synchronized`, intrinsic monitors, and the consequences of getting
 lock identity wrong.
@@ -14,6 +22,8 @@ lock identity wrong.
 - One shared lock, mutual exclusion
 - `synchronized` method (locks on `this`) vs `synchronized` block (explicit lock object)
 - Fixing the bank-account invariant
+- Synchronized-method counter demo
+- Lock-splitting worker demo
 
 ## Part 3 - Lock identity
 - `synchronized (new Object())` is a no-op for coordination
@@ -24,10 +34,13 @@ lock identity wrong.
 - BLOCKED: waiting to enter a monitor
 - WAITING: parked on `Object.wait()` / `LockSupport.park()`
 - TIMED_WAITING: `sleep`, `wait(ms)`, `join(ms)`
+- Producer/consumer wait-notify demo
+- ReentrantLock + Condition demo
 
 ## Part 5 - Reentrancy
 - Java intrinsic locks are reentrant
 - Outer/inner synchronized methods on the same monitor
+- Deadlock prevention with ReentrantLock.tryLock()
 
 ---
 
@@ -99,19 +112,24 @@ Example runs:
 
     java -cp .\build\classes\java\main edu.lu.concurrency.week3.day1.part1_races.Demo01_BrokenCounterRace
     java -cp .\build\classes\java\main edu.lu.concurrency.week3.day1.part2_monitors.Demo03_SafeCounterWithSharedLock
-    java -cp .\build\classes\java\main edu.lu.concurrency.week3.day1.part3_lock_identity.Demo06_LockIdentityTrap
+    java -cp .\build\classes\java\main edu.lu.concurrency.week3.day1.part2_monitors.Demo15_SynchronizedMethodCounterApp
+    java -cp .\build\classes\java\main edu.lu.concurrency.week3.day1.part3_lock_identity.Demo08_LockIdentityTrap
+    java -cp .\build\classes\java\main edu.lu.concurrency.week3.day1.part2_monitors.Demo06_WorkerLockSplitting
+    java -cp .\build\classes\java\main edu.lu.concurrency.week3.day1.part4_states.Demo11_ProducerConsumerWaitNotify
+    java -cp .\build\classes\java\main edu.lu.concurrency.week3.day1.part4_states.Demo10_ReentrantLockCondition
+    java -cp .\build\classes\java\main edu.lu.concurrency.week3.day1.part5_reentrancy.Demo14_DeadlockPrevention
 
 Or via Gradle tasks:
 
     .\gradlew.bat runDemo01
-    .\gradlew.bat runDemo06
-    .\gradlew.bat runDemo07
+    .\gradlew.bat runDemo08
+    .\gradlew.bat runDemo09
 
 ---
 
 # 5) Thread Dump Practice
 
-While Demo07_BlockedVsWaiting is running:
+While Demo09_BlockedVsWaiting is running:
 
 Find process:
 

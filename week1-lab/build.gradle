@@ -53,12 +53,13 @@ sourceSets {
 tasks.register('studentCheck', Test) {
     group       = 'verification'
     description = 'Run only the Student* grading tests with verbose output.'
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
     useJUnitPlatform()
-    filter { includeTestsMatching 'edu.lu.concurrency.*.exercises.StudentWeek*' }
+    filter { includeTestsMatching '*StudentWeek*' }
     testLogging {
         events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
         showStandardStreams = true
         exceptionFormat    = 'full'
     }
 }
-

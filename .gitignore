@@ -1,17 +1,16 @@
-﻿@"
 # =========================
 # Gradle
 # =========================
 .gradle/
 build/
 
-# Ignore all of gradle EXCEPT wrapper
+# Ignore Gradle caches but keep wrapper files
 gradle/*
 !gradle/wrapper/
 !gradle/wrapper/gradle-wrapper.jar
 !gradle/wrapper/gradle-wrapper.properties
 
-# Compiled output folders (yours exists)
+# Compiled output folders
 bin/
 *.class
 
@@ -34,4 +33,39 @@ Thumbs.db
 # Crash logs
 hs_err_pid*
 replay_pid*
-"@ | Set-Content -Path ".\.gitignore" -Encoding UTF8
+
+# =========================
+# Private course control docs
+# =========================
+/CONVENTIONS.md
+/COURSE_TODO.md
+/EXERCISES_TEMPLATE.md
+/SYLLABUS_LAB_ALIGNMENT.md
+/PITFALLS.md
+/_template-week/
+
+# =========================
+# Lecture publishing
+# =========================
+# Do not publish LaTeX sources to the student repository.
+# Commit the generated PDFs instead.
+/Lectures/*.tex
+!/Lectures/*.pdf
+
+# LaTeX build byproducts
+/Lectures/*.aux
+/Lectures/*.bbl
+/Lectures/*.bcf
+/Lectures/*.blg
+/Lectures/*.fdb_latexmk
+/Lectures/*.fls
+/Lectures/*.lof
+/Lectures/*.log
+/Lectures/*.lot
+/Lectures/*.nav
+/Lectures/*.out
+/Lectures/*.run.xml
+/Lectures/*.snm
+/Lectures/*.synctex.gz
+/Lectures/*.toc
+/Lectures/*.vrb

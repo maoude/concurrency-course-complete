@@ -36,7 +36,12 @@
  */
 package edu.lu.concurrency.week3.day1.part4_states.exercises;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
 public final class Ex1_ProveBlocked {
+
+    private static final Object SHARED_LOCK = new Object();
 
     /**
      * Returns a thread that, at the moment of return, is in BLOCKED state.
@@ -48,8 +53,40 @@ public final class Ex1_ProveBlocked {
      * contender can finish naturally.
      */
     public static Thread produceBlockedThread() throws Exception {
-        // TODO: implement.
-        return null;
+        CountDownLatch holderHasLock = new CountDownLatch(1);
+
+        Thread holder = new Thread(() -> {
+            synchronized (SHARED_LOCK) {
+                holderHasLock.countDown();
+                try {
+                    TimeUnit.MILLISECONDS.sleep(500);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }, "blocked-demo-holder");
+
+        Thread contender = new Thread(() -> {
+            synchronized (SHARED_LOCK) {
+                // Empty body: reaching this point proves the monitor was released.
+            }
+        }, "blocked-demo-contender");
+
+        holder.start();
+        if (!holderHasLock.await(1, TimeUnit.SECONDS)) {
+            throw new IllegalStateException("Holder did not acquire SHARED_LOCK in time");
+        }
+
+        contender.start();
+        waitUntilBlocked(contender, 1_000);
+        return contender;
+    }
+
+    private static void waitUntilBlocked(Thread thread, long timeoutMillis) throws InterruptedException {
+        long deadline = System.nanoTime() + TimeUnit.MILLISECONDS.toNanos(timeoutMillis);
+        while (System.nanoTime() < deadline && thread.getState() != Thread.State.BLOCKED) {
+            TimeUnit.MILLISECONDS.sleep(10);
+        }
     }
 
     private Ex1_ProveBlocked() {}

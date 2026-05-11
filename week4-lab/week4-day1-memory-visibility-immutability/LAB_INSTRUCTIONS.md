@@ -8,6 +8,12 @@
 4. Repair broken DCL using `volatile` + synchronized block.
 5. Build a lock-free reader path using immutable snapshots.
 
+## Preview Material
+
+`part5_thread_local` is a Week 5 preview. Run it after the graded Week 4
+work if you want to compare unsafe shared per-thread state with
+`ThreadLocal<T>`, but do not count it as a Week 4 student exercise.
+
 ## Deliverables
 
 1. Green `StudentWeek4*` tests.

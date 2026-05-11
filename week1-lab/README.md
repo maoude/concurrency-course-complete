@@ -44,6 +44,10 @@ Build + test:
 
     .\gradlew.bat clean test
 
+Run only student exercise tests:
+
+    .\gradlew.bat studentCheck
+
 Build classes only:
 
     .\gradlew.bat classes
@@ -131,7 +135,26 @@ Outputs:
 
 ---
 
-## 9) Git Rules
+## 9) Student Exercises
+
+The current Week 1 student exercises are documented in `EXERCISES.md`.
+
+Implemented:
+- W1.P4.Ex1 - Amdahl speedup
+- W1.P4.Ex2 - Karp-Flatt serial fraction
+
+Pending syllabus exercise tasks:
+- W1.P1 - single-threaded server measurements
+- W1.P2 - multi-threaded blocking server comparison
+- W1.P3 - thread-pool tuning + Little's Law
+
+Run all implemented student checks:
+
+    .\gradlew.bat studentCheck
+
+---
+
+## 10) Git Rules
 
 DO NOT commit:
 - .gradle/
