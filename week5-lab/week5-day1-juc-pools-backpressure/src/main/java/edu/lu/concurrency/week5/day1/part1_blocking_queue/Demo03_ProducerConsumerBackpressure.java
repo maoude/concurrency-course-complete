@@ -1,0 +1,28 @@
+package edu.lu.concurrency.week5.day1.part1_blocking_queue;
+
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+
+public class Demo03_ProducerConsumerBackpressure {
+    public static int runOnce() throws InterruptedException {
+        BlockingQueue<Integer> queue = new ArrayBlockingQueue<>(1);
+        Thread producer = new Thread(() -> {
+            try {
+                queue.put(1);
+                queue.put(2);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }, "producer");
+
+        producer.start();
+        int first = queue.take();
+        int second = queue.take();
+        producer.join();
+        return first + second;
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        System.out.println("Consumed sum: " + runOnce());
+    }
+}

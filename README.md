@@ -32,6 +32,7 @@ code .
 | `week3-lab/week3-day1-race-monitors-lock-identity/` | Main Week 3 lab on races, monitors, lock identity, states, and reentrancy. |
 | `week3-lab/week3-day1-locks-monitors/` | Legacy Week 3 folder kept for compatibility with older references. |
 | `week4-lab/week4-day1-memory-visibility-immutability/` | Visibility, volatile, atomicity, double-checked locking, immutability, and ThreadLocal preview. |
+| `week5-lab/week5-day1-juc-pools-backpressure/` | `java.util.concurrent`, bounded queues, thread pools, atomics, read-write locks, and ThreadLocal cleanup. |
 | `case-studies/` | Course case studies. |
 
 ## First Setup Check
@@ -48,10 +49,16 @@ Java must be version 21 or newer.
 
 ## Running a Lab
 
-Run commands from inside the weekly lab folder.
+Run commands from inside the weekly lab folder. For a first environment check, compile the lab:
 
 ```powershell
 cd week1-lab
+.\gradlew.bat classes
+```
+
+After implementing exercises, run the grading checks:
+
+```powershell
 .\gradlew.bat clean test
 .\gradlew.bat studentCheck
 ```

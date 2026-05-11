@@ -24,6 +24,10 @@ This lab supports:
 ## Part 3  Coordination
 - join() correctness and happens-before
 - join(timeout) pitfall
+- Semaphore-based bounded waiting room
+- Callable/Future result retrieval
+- invokeAny() first-success race
+- CompletionService completion-order processing
 
 ### Core vs Preview
 
@@ -35,7 +39,7 @@ future syllabus weeks:
 
 - Semaphore-based bounded waiting room
 - Callable/Future result retrieval
-- CompletionService / invokeAny / polling futures
+- invokeAny() / CompletionService / polling futures
 - Race-condition demos
 
 ---
@@ -115,14 +119,14 @@ Example run:
 
     java -cp .\build\classes\java\main edu.lu.concurrency.week2.day1.part1_basics.Demo04_Interleaving
     java -cp .\build\classes\java\main edu.lu.concurrency.week2.day1.part2_lifecycle.Demo15_InterruptedThreadCancellation
-    java -cp .\build\classes\java\main edu.lu.concurrency.week2.day1.part3_coordination.Demo22_SemaphoreBarberShop
-    java -cp .\build\classes\java\main edu.lu.concurrency.week2.day1.part3_coordination.Demo23_CallableAndFuture
+    java -cp .\build\classes\java\main edu.lu.concurrency.week2.day1.part3_coordination.Demo22_InvokeAnyUserValidation
+    java -cp .\build\classes\java\main edu.lu.concurrency.week2.day1.part3_coordination.Demo23_CompletionServiceReportProcessing
 
 ---
 
 # 5) Thread Dump Practice
 
-While Demo10 is running:
+While Demo23 is running:
 
 Find process:
 

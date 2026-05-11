@@ -1,17 +1,9 @@
 # Week 3 - Day 1 Lab
 ## Race Conditions, Monitors, Lock Identity & Reentrancy
 
-> DEPRECATED: this folder is now a legacy/demo archive.
->
-> Use the canonical Week 3 student lab:
->
-> `../week3-day1-race-monitors-lock-identity`
->
-> Migration status is tracked in `../WEEK3_MIGRATION_MAP.md`.
-
 This lab continues directly from Week 2 Part 4 (race conditions) and goes
-deep on `synchronized`, intrinsic monitors, and the consequences of getting
-lock identity wrong.
+deep on `synchronized`, intrinsic monitors, lock identity, thread states,
+and reentrancy.
 
 ## Part 1 - Why races happen
 - Non-atomic `count++`
@@ -112,12 +104,14 @@ Example runs:
 
     java -cp .\build\classes\java\main edu.lu.concurrency.week3.day1.part1_races.Demo01_BrokenCounterRace
     java -cp .\build\classes\java\main edu.lu.concurrency.week3.day1.part2_monitors.Demo03_SafeCounterWithSharedLock
-    java -cp .\build\classes\java\main edu.lu.concurrency.week3.day1.part2_monitors.Demo15_SynchronizedMethodCounterApp
-    java -cp .\build\classes\java\main edu.lu.concurrency.week3.day1.part3_lock_identity.Demo08_LockIdentityTrap
+    java -cp .\build\classes\java\main edu.lu.concurrency.week3.day1.part2_monitors.Demo04_SynchronizedMethodVsBlock
+    java -cp .\build\classes\java\main edu.lu.concurrency.week3.day1.part3_lock_identity.Demo06_LockIdentityTrap
     java -cp .\build\classes\java\main edu.lu.concurrency.week3.day1.part2_monitors.Demo06_WorkerLockSplitting
-    java -cp .\build\classes\java\main edu.lu.concurrency.week3.day1.part4_states.Demo11_ProducerConsumerWaitNotify
-    java -cp .\build\classes\java\main edu.lu.concurrency.week3.day1.part4_states.Demo10_ReentrantLockCondition
-    java -cp .\build\classes\java\main edu.lu.concurrency.week3.day1.part5_reentrancy.Demo14_DeadlockPrevention
+    java -cp .\build\classes\java\main edu.lu.concurrency.week3.day1.part2_monitors.Demo07_ParkingSimulatorLockSplitting
+    java -cp .\build\classes\java\main edu.lu.concurrency.week3.day1.part4_states.Demo08_ReentrantLockCondition
+    java -cp .\build\classes\java\main edu.lu.concurrency.week3.day1.part4_states.Demo09_ProducerConsumerWaitNotify
+    java -cp .\build\classes\java\main edu.lu.concurrency.week3.day1.part5_reentrancy.Demo08_Reentrancy
+    java -cp .\build\classes\java\main edu.lu.concurrency.week3.day1.part5_reentrancy.Demo09_DeadlockPrevention
 
 Or via Gradle tasks:
 
@@ -129,7 +123,7 @@ Or via Gradle tasks:
 
 # 5) Thread Dump Practice
 
-While Demo09_BlockedVsWaiting is running:
+While Demo09_ProducerConsumerWaitNotify is running:
 
 Find process:
 
