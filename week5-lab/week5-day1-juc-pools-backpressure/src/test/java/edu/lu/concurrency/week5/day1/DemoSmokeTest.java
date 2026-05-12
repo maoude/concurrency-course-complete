@@ -1,3 +1,11 @@
+/*
+ * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 5
+ * Lab Title: Day 1 - java.util.concurrent, Pools, and Backpressure
+ * ================================================================
+ */
 package edu.lu.concurrency.week5.day1;
 
 import edu.lu.concurrency.week5.day1.part1_blocking_queue.Demo01_UnboundedQueueRisk;
@@ -19,8 +27,11 @@ import edu.lu.concurrency.week5.day1.part5_thread_local.Demo13_ThreadLocalLeakIn
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ * Smoke tests for Week 5 demos, keeping examples deterministic and fast enough for CI.
+ */
 class DemoSmokeTest {
+    // Important concurrency point: These assertions stay deterministic so demo regressions fail without timing flakiness.
     @Test
     void demosRun() throws Exception {
         assertEquals(10, Demo01_UnboundedQueueRisk.enqueueWithoutLimit(10));
@@ -35,6 +46,7 @@ class DemoSmokeTest {
         Demo17_HandRolledExecutorContrast.ContrastResult contrast = Demo17_HandRolledExecutorContrast.runDemo();
         assertEquals("task-101", contrast.firstResult());
         assertEquals("task-202", contrast.secondResult());
+        // Concurrency note: shutdown() prevents new tasks so the pool can drain safely.
         assertTrue(contrast.rejectedAfterShutdown());
 
         Demo07_SynchronizedCounter syncCounter = new Demo07_SynchronizedCounter();
@@ -67,3 +79,5 @@ class DemoSmokeTest {
         Demo13_ThreadLocalLeakInPool.clear();
     }
 }
+
+

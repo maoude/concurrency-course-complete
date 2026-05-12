@@ -1,3 +1,11 @@
+/*
+ * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 5
+ * Lab Title: Day 1 - java.util.concurrent, Pools, and Backpressure
+ * ================================================================
+ */
 package edu.lu.concurrency.week5.day1.part1_blocking_queue.exercises;
 
 import org.junit.jupiter.api.Test;
@@ -8,8 +16,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ * Student-facing tests for the bounded buffer exercise.
+ */
 class StudentWeek5Part1_Ex1Test {
+    // Important concurrency point: The tests verify both capacity accounting and blocking handoff semantics.
     @Test
     void storesAndReturnsItemsInFifoOrder() throws Exception {
         Ex1_BoundedBuffer<String> buffer = new Ex1_BoundedBuffer<>(2);
@@ -29,6 +40,7 @@ class StudentWeek5Part1_Ex1Test {
     void putBlocksUntilSpaceIsAvailable() throws Exception {
         Ex1_BoundedBuffer<Integer> buffer = new Ex1_BoundedBuffer<>(1);
         buffer.put(1);
+        // Concurrency note: Latch coordinates timing to make concurrent behavior deterministic in tests.
         CountDownLatch attemptingPut = new CountDownLatch(1);
         AtomicBoolean completed = new AtomicBoolean(false);
 
@@ -53,3 +65,5 @@ class StudentWeek5Part1_Ex1Test {
         assertEquals(2, buffer.take());
     }
 }
+
+

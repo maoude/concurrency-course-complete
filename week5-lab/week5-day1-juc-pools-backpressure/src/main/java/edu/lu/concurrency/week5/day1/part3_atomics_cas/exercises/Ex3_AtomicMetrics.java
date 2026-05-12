@@ -1,3 +1,11 @@
+/*
+ * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 5
+ * Lab Title: Day 1 - java.util.concurrent, Pools, and Backpressure
+ * ================================================================
+ */
 package edu.lu.concurrency.week5.day1.part3_atomics_cas.exercises;
 
 /*
@@ -11,7 +19,11 @@ package edu.lu.concurrency.week5.day1.part3_atomics_cas.exercises;
  * Pass when: StudentWeek5Part3_Ex3Test proves concurrent updates are not lost.
  * Hint: AtomicInteger is enough here.
  */
+/**
+ * Student scaffold for a lock-free metrics collector using atomic state.
+ */
 public class Ex3_AtomicMetrics {
+    // Important concurrency point: Students should use atomic operations so concurrent updates do not lose counts.
     public void recordSuccess() {
         // TODO: atomically record one successful request.
     }

@@ -1,3 +1,11 @@
+/*
+ * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 5
+ * Lab Title: Day 1 - java.util.concurrent, Pools, and Backpressure
+ * ================================================================
+ */
 package edu.lu.concurrency.week5.day1.part2_thread_pools.exercises;
 
 import java.util.concurrent.TimeUnit;
@@ -13,7 +21,11 @@ import java.util.concurrent.TimeUnit;
  * Pass when: StudentWeek5Part2_Ex2Test proves task execution and rejection.
  * Hint: ThreadPoolExecutor plus AbortPolicy gives explicit overload behavior.
  */
+/**
+ * Student scaffold for a bounded executor that exposes overload through rejection instead of unbounded queuing.
+ */
 public class Ex2_BoundedExecutor implements AutoCloseable {
+    // Important concurrency point: Students should expose overload with a RejectedExecutionException once capacity is full.
     public Ex2_BoundedExecutor(int workers, int queueCapacity) {
         // TODO: create a ThreadPoolExecutor with fixed workers and bounded queue.
     }

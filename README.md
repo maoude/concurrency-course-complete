@@ -33,6 +33,7 @@ code .
 | `week3-lab/week3-day1-locks-monitors/` | Legacy Week 3 folder kept for compatibility with older references. |
 | `week4-lab/week4-day1-memory-visibility-immutability/` | Visibility, volatile, atomicity, double-checked locking, immutability, and ThreadLocal preview. |
 | `week5-lab/week5-day1-juc-pools-backpressure/` | `java.util.concurrent`, bounded queues, thread pools, atomics, read-write locks, and ThreadLocal cleanup. |
+| `week6-lab/week6-day1-parallelism-forkjoin/` | Fork/Join, task granularity, break-even measurement, and parallel-stream pitfalls. |
 | `case-studies/` | Course case studies. |
 
 ## First Setup Check
@@ -64,6 +65,10 @@ After implementing exercises, run the grading checks:
 ```
 
 For another week, change into that week's lab folder first, then run the same Gradle commands.
+
+## Checkpoints
+
+- Week 5 Checkpoint 2 rubric: `CHECKPOINT2_RUBRIC.md`
 
 ## Student Workflow
 

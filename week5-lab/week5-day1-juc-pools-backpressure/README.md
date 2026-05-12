@@ -37,3 +37,14 @@ Instructor solutions are excluded by default. Include them only for instructor c
 Implement only the classes under `exercises/`.
 
 The TODO stubs compile but should fail `studentCheck` until implemented.
+
+## Required References
+
+- `CONCURRENCY_SCORECARD.md` - fill this in after completing the exercises.
+- `PITFALLS.md` Release 2 - review oversized pools, unbounded queues, and nested task submission.
+- `MEASUREMENT_TEMPLATE.md` - use this format for the fixed-vs-cached pool observation.
+- `CHECKPOINT2_RUBRIC.md` - use this for the Week 5 thread-pooled server checkpoint.
+
+## Explanation Quality Rubric
+
+A complete answer must name the symptom, explain the mechanism, state the fix, and mention the remaining tradeoff or liveness risk.

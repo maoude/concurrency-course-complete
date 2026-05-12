@@ -1,3 +1,11 @@
+/*
+ * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 5
+ * Lab Title: Day 1 - java.util.concurrent, Pools, and Backpressure
+ * ================================================================
+ */
 package edu.lu.concurrency.week5.day1.part5_thread_local.exercises;
 
 import org.junit.jupiter.api.AfterEach;
@@ -9,8 +17,11 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ * Student-facing tests for the request context and ThreadLocal cleanup exercise.
+ */
 class StudentWeek5Part5_Ex5Test {
+    // Important concurrency point: The tests verify that context does not survive past the intended request scope.
     @AfterEach
     void clearContext() {
         Ex5_RequestContext.clear();
@@ -43,6 +54,7 @@ class StudentWeek5Part5_Ex5Test {
     void pooledThreadDoesNotLeakPreviousRequest() throws Exception {
         ExecutorService pool = Executors.newSingleThreadExecutor();
         try {
+            // Concurrency note: submit() dispatches asynchronous work to executor threads.
             Future<String> first = pool.submit(() -> {
                 AtomicReference<String> seen = new AtomicReference<>();
                 Ex5_RequestContext.runWithContext("req-a", () -> seen.set(Ex5_RequestContext.get()));
@@ -58,3 +70,5 @@ class StudentWeek5Part5_Ex5Test {
         }
     }
 }
+
+

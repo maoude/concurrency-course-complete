@@ -1,3 +1,11 @@
+/*
+ * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 5
+ * Lab Title: Day 1 - java.util.concurrent, Pools, and Backpressure
+ * ================================================================
+ */
 package edu.lu.concurrency.week5.day1.part4_read_write_lock.exercises;
 
 import org.junit.jupiter.api.Test;
@@ -7,8 +15,11 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ * Student-facing tests for the read-mostly cache exercise.
+ */
 class StudentWeek5Part4_Ex4Test {
+    // Important concurrency point: The tests verify cache correctness while encouraging read-write lock structure.
     @Test
     void storesReadsAndSnapshotsValues() {
         Ex4_ReadMostlyCache<String, Integer> cache = new Ex4_ReadMostlyCache<>();
@@ -31,6 +42,7 @@ class StudentWeek5Part4_Ex4Test {
         Ex4_ReadMostlyCache<Integer, Integer> cache = new Ex4_ReadMostlyCache<>();
         int threads = 4;
         int iterations = 500;
+        // Concurrency note: Latch coordinates timing to make concurrent behavior deterministic in tests.
         CountDownLatch start = new CountDownLatch(1);
         Thread[] workers = new Thread[threads];
 
@@ -58,3 +70,5 @@ class StudentWeek5Part4_Ex4Test {
         assertEquals(threads * iterations, cache.size());
     }
 }
+
+

@@ -1,3 +1,11 @@
+/*
+ * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 5
+ * Lab Title: Day 1 - java.util.concurrent, Pools, and Backpressure
+ * ================================================================
+ */
 package edu.lu.concurrency.week5.day1.part2_thread_pools;
 
 import java.util.ArrayList;
@@ -8,14 +16,18 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
-
+/**
+ * Instructor contrast demo showing why production code should prefer ThreadPoolExecutor over hand-rolled executors.
+ */
 public class Demo17_HandRolledExecutorContrast {
+    // Important concurrency point: This toy implementation is intentionally minimal and omits production executor guarantees.
     public record ContrastResult(String firstResult, String secondResult, boolean rejectedAfterShutdown) {
     }
 
     public static ContrastResult runDemo() throws Exception {
         ToyExecutor<String> executor = new ToyExecutor<>(2);
         try {
+            // Concurrency note: submit() dispatches asynchronous work to executor threads.
             ToyFuture<String> first = executor.submit(new CallableWithID<String>(101L) {
                 @Override
                 public String call() {
@@ -163,4 +175,5 @@ public class Demo17_HandRolledExecutorContrast {
             }
         }
     }
+    // Expected behavior: Hand-rolled execution is fragile versus ThreadPoolExecutor lifecycle and safety guarantees.
 }

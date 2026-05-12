@@ -1,3 +1,11 @@
+/*
+ * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 5
+ * Lab Title: Day 1 - java.util.concurrent, Pools, and Backpressure
+ * ================================================================
+ */
 package edu.lu.concurrency.week5.day1.part5_thread_local.exercises;
 
 /*
@@ -11,10 +19,14 @@ package edu.lu.concurrency.week5.day1.part5_thread_local.exercises;
  * Pass when: StudentWeek5Part5_Ex5Test proves isolation and cleanup.
  * Hint: runWithContext should use try/finally.
  */
+/**
+ * Student scaffold for request context propagation with mandatory ThreadLocal cleanup.
+ */
 public final class Ex5_RequestContext {
     private Ex5_RequestContext() {
     }
 
+    // Important concurrency point: Students should always clear context in finally, even when the task fails.
     public static void set(String requestId) {
         // TODO: store requestId for the current thread only.
     }

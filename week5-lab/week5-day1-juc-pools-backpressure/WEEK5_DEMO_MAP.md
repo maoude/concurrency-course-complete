@@ -19,3 +19,5 @@
 | Demo15 | Cached thread pool behavior |
 | Demo16 | Fixed vs cached thread pool throughput comparison |
 | Demo17 | Hand-rolled executor contrast example |
+| Demo18 | Writer delay and fairness risk with read-write locks |
+| Demo19 | Measured ThreadLocal memory retention |

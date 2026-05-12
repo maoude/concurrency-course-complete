@@ -1,3 +1,11 @@
+/*
+ * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 5
+ * Lab Title: Day 1 - java.util.concurrent, Pools, and Backpressure
+ * ================================================================
+ */
 package edu.lu.concurrency.week5.day1.part4_read_write_lock.exercises;
 
 import java.util.Map;
@@ -13,7 +21,11 @@ import java.util.Map;
  * Pass when: StudentWeek5Part4_Ex4Test proves functional and snapshot behavior.
  * Hint: copy the map while holding the read lock for snapshot().
  */
+/**
+ * Student scaffold for a read-mostly cache protected by a read-write lock.
+ */
 public class Ex4_ReadMostlyCache<K, V> {
+    // Important concurrency point: Students should separate read-only and mutating operations into the correct lock modes.
     public void put(K key, V value) {
         // TODO: write under the write lock.
     }

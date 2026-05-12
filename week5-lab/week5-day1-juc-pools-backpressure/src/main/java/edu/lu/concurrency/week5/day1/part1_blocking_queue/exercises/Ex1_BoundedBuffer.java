@@ -1,3 +1,11 @@
+/*
+ * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 5
+ * Lab Title: Day 1 - java.util.concurrent, Pools, and Backpressure
+ * ================================================================
+ */
 package edu.lu.concurrency.week5.day1.part1_blocking_queue.exercises;
 
 /*
@@ -11,7 +19,11 @@ package edu.lu.concurrency.week5.day1.part1_blocking_queue.exercises;
  * Pass when: StudentWeek5Part1_Ex1Test proves capacity and blocking behavior.
  * Hint: ArrayBlockingQueue is the direct fit.
  */
+/**
+ * Student scaffold for a bounded buffer built on BlockingQueue semantics.
+ */
 public class Ex1_BoundedBuffer<T> {
+    // Important concurrency point: Students should preserve blocking behavior and avoid polling or busy waiting.
     public Ex1_BoundedBuffer(int capacity) {
         // TODO: create a bounded BlockingQueue with this capacity.
     }

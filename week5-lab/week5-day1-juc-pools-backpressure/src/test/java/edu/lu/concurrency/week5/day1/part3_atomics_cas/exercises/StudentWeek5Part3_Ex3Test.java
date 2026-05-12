@@ -1,3 +1,11 @@
+/*
+ * ================================================================
+ * Author: Dr. Mohamad Aoude
+ * Course: Concurrency & Distributed Systems
+ * Week: Week 5
+ * Lab Title: Day 1 - java.util.concurrent, Pools, and Backpressure
+ * ================================================================
+ */
 package edu.lu.concurrency.week5.day1.part3_atomics_cas.exercises;
 
 import org.junit.jupiter.api.Test;
@@ -7,8 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ * Student-facing tests for the atomic metrics exercise.
+ */
 class StudentWeek5Part3_Ex3Test {
+    // Important concurrency point: The tests create concurrent updates to detect lost or non-atomic writes.
     @Test
     void emptyMetricsHaveZeroRate() {
         Ex3_AtomicMetrics metrics = new Ex3_AtomicMetrics();
@@ -37,6 +48,7 @@ class StudentWeek5Part3_Ex3Test {
                 }
             });
             workers.add(worker);
+            // Concurrency note: Start all workers so metrics updates race under contention and expose lost-update bugs.
             worker.start();
         }
 
@@ -50,3 +62,5 @@ class StudentWeek5Part3_Ex3Test {
         assertEquals(80.0, metrics.successRatePercent(), 0.0001);
     }
 }
+
+
