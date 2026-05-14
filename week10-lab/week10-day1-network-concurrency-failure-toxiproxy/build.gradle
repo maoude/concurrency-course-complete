@@ -1,0 +1,77 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.2')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+
+test {
+    useJUnitPlatform()
+    filter {
+        excludeTestsMatching '*StudentWeek*'
+        excludeTestsMatching '*InstructorWeek*'
+    }
+    testLogging { events 'passed', 'skipped', 'failed' }
+}
+
+def instructorMode = project.hasProperty('instructor') &&
+                     project.property('instructor').toString() == 'true'
+
+sourceSets {
+    main {
+        java {
+            if (!instructorMode) {
+                exclude '**/solutions/**'
+            }
+        }
+    }
+}
+
+tasks.register('studentCheck', Test) {
+    group = 'verification'
+    description = 'Run only Student* grading tests with verbose output.'
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    useJUnitPlatform()
+    filter { includeTestsMatching '*StudentWeek*' }
+    testLogging {
+        events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+        showStandardStreams = true
+        exceptionFormat = 'full'
+    }
+}
+
+tasks.register('instructorCheck', Test) {
+    group = 'verification'
+    description = 'Run instructor-only solution checks. Use: gradlew.bat -Pinstructor=true instructorCheck'
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    useJUnitPlatform()
+    filter { includeTestsMatching '*InstructorWeek*' }
+    testLogging {
+        events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+        showStandardStreams = true
+        exceptionFormat = 'full'
+    }
+}
+
+application {
+    mainClass = 'edu.lu.concurrency.week10.day1.Week10DemoRunner'
+}
