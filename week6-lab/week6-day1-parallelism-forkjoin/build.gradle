@@ -24,6 +24,7 @@ tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
 
 test {
     useJUnitPlatform()
+    filter { excludeTestsMatching '*StudentWeek*' }
     testLogging { events 'passed', 'skipped', 'failed' }
 }
 
@@ -55,5 +56,5 @@ tasks.register('studentCheck', Test) {
 }
 
 application {
-    mainClass = 'edu.lu.concurrency.week6.day1.part1_fork_join.Demo01_SequentialArraySum'
+    mainClass = 'edu.lu.concurrency.week6.day1.Week6DemoRunner'
 }

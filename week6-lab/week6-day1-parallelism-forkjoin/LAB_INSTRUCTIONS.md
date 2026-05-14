@@ -10,7 +10,10 @@ Learn when CPU-bound parallel decomposition helps and when its coordination over
 2. Run `.\gradlew.bat studentCheck`.
 3. Implement one exercise at a time.
 4. Rerun the relevant test.
-5. Finish with `.\gradlew.bat classes` and the smoke test.
+5. Finish with `.\gradlew.bat test` and `.\gradlew.bat studentCheck`.
+
+`test` is the demo/smoke safety check. `studentCheck` is the exercise gate
+and should fail before the TODO stubs are completed.
 
 ## Required Explanation
 

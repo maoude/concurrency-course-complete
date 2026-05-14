@@ -20,8 +20,30 @@ Topics:
 
 ```powershell
 .\gradlew.bat classes
-.\gradlew.bat test --tests "edu.lu.concurrency.week6.day1.DemoSmokeTest"
+.\gradlew.bat test
 .\gradlew.bat studentCheck
+```
+
+`test` runs the demo/smoke checks. `studentCheck` runs the exercise
+grading tests and is expected to fail until the TODO stubs are implemented.
+
+Run one demo:
+
+```powershell
+.\run-demo.ps1 03
+```
+
+Run all demos:
+
+```powershell
+.\run-all-demos.ps1
+```
+
+The batch files provide the same commands for `cmd.exe`:
+
+```bat
+run-demo.bat 03
+run-all-demos.bat
 ```
 
 Instructor solutions are excluded by default. Include them only for instructor checks:
