@@ -34,6 +34,10 @@ code .
 | `week4-lab/week4-day1-memory-visibility-immutability/` | Visibility, volatile, atomicity, double-checked locking, immutability, and ThreadLocal preview. |
 | `week5-lab/week5-day1-juc-pools-backpressure/` | `java.util.concurrent`, bounded queues, thread pools, atomics, read-write locks, and ThreadLocal cleanup. |
 | `week6-lab/week6-day1-parallelism-forkjoin/` | Fork/Join, task granularity, break-even measurement, and parallel-stream pitfalls. |
+| `week7-lab/week7-day1-async-testing-antipatterns/` | CompletableFuture pipelines, timeouts/fallbacks, stress-style testing, fan-out/fan-in, and NIO counterpoint. |
+| `week8-lab/week8-day1-midterm-debugging-kafka-preview/` | Midterm debugging packet, async server fix, tradeoff analysis, and Kafka mental-model preview. |
+| `week9-lab/week9-day1-python-gil-runtime-limits/` | Python GIL, CPU-bound threads vs multiprocessing, visual proof, and Go/Erlang contrast. |
+| `week10-lab/week10-day1-network-concurrency-failure-toxiproxy/` | Network concurrency/failure, socket queue protocol, Toxiproxy guide, and measurement summary. |
 | `case-studies/` | Course case studies. |
 
 ## First Setup Check
@@ -47,6 +51,7 @@ javac -version
 ```
 
 Java must be version 21 or newer.
+Week 9 also requires Python 3.11 or newer.
 
 ## Running a Lab
 
