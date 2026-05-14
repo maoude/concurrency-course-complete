@@ -13,6 +13,8 @@ gradle/*
 # Compiled output folders
 bin/
 *.class
+__pycache__/
+*.py[cod]
 
 # Bench / generated artifacts
 results/
