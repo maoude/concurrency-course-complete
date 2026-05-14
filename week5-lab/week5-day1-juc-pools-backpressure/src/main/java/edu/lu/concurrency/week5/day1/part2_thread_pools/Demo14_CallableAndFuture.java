@@ -15,22 +15,24 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Demonstrates the fundamental Callable/Future pattern.
- // Concurrency note: invokeAll() runs bounded fan-out and waits for all futures.
- * For convenience when submitting multiple callables, see ExecutorService.invokeAll().
- */
-/**
  * Shows Callable submission, Future result retrieval, and timeout-aware get.
+ *
+ * For convenience when submitting several callables at once, see ExecutorService.invokeAll().
  */
 public class Demo14_CallableAndFuture {
     // Important concurrency point: Future.get is bounded with a timeout so the caller cannot wait forever.
     public static int computeSquare(int input) throws Exception {
+        // A single-thread executor runs submitted tasks on one reusable worker thread.
         ExecutorService pool = Executors.newSingleThreadExecutor();
         try {
+            // Callable is like Runnable, but it returns a value and may throw checked exceptions.
             Callable<Integer> work = () -> input * input;
+            // submit() starts the work asynchronously and returns a Future placeholder for the later result.
             Future<Integer> result = pool.submit(work);
+            // get(timeout) waits only for the stated time; plain get() could block forever.
             return result.get(1, TimeUnit.SECONDS);
         } finally {
+            // shutdownNow() is acceptable in this tiny demo because no more work should remain.
             pool.shutdownNow();
         }
     }

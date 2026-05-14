@@ -28,15 +28,18 @@ public class Ex2_BoundedExecutor implements AutoCloseable {
     // Important concurrency point: Students should expose overload with a RejectedExecutionException once capacity is full.
     public Ex2_BoundedExecutor(int workers, int queueCapacity) {
         // TODO: create a ThreadPoolExecutor with fixed workers and bounded queue.
+        // ThreadPoolExecutor lets you control worker count, queue capacity, and rejection behavior explicitly.
     }
 
     public boolean submit(Runnable task) {
         // TODO: return true when accepted and false when rejected.
+        // Runnable has no return value; this method's boolean reports only whether the task was accepted.
         return false;
     }
 
     public void shutdownAndAwait(long timeout, TimeUnit unit) throws InterruptedException {
         // TODO: shutdown and wait for completion.
+        // TimeUnit keeps the timeout readable: callers can pass SECONDS, MILLISECONDS, etc.
     }
 
     @Override

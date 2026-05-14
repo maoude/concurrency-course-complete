@@ -16,6 +16,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+
 /**
  * Instructor contrast demo showing why production code should prefer ThreadPoolExecutor over hand-rolled executors.
  */
@@ -66,6 +67,7 @@ public class Demo17_HandRolledExecutorContrast {
     }
 
     private abstract static class CallableWithID<T> implements Callable<T> {
+        // Callable is used instead of Runnable because this task produces a result.
         private final Long id;
 
         protected CallableWithID(Long id) {
@@ -88,12 +90,14 @@ public class Demo17_HandRolledExecutorContrast {
     }
 
     private static final class ToyFuture<T> {
+        // Semaphore starts at zero permits, so get() blocks until complete/fail releases one permit.
         private final Semaphore ready = new Semaphore(0);
         private volatile T value;
         private volatile Exception failure;
 
         private void complete(T value) {
             this.value = value;
+            // release() wakes the waiting get() caller.
             ready.release();
         }
 
@@ -103,6 +107,7 @@ public class Demo17_HandRolledExecutorContrast {
         }
 
         private T get() throws Exception {
+            // acquire() waits until complete() or fail() signals readiness.
             ready.acquire();
             if (failure != null) {
                 throw failure;
@@ -112,7 +117,9 @@ public class Demo17_HandRolledExecutorContrast {
     }
 
     private static final class ToyExecutor<T> implements AutoCloseable {
+        // BlockingQueue stores submitted work until a worker thread takes it.
         private final BlockingQueue<CallableRecord<T>> queue = new LinkedBlockingQueue<>();
+        // This list exists only so close() can interrupt every worker.
         private final List<Thread> workers = new ArrayList<>();
         private volatile boolean accepting = true;
 
@@ -132,6 +139,7 @@ public class Demo17_HandRolledExecutorContrast {
                 throw new IllegalStateException("executor already shut down");
             }
             ToyFuture<T> future = new ToyFuture<>();
+            // add() never blocks here because LinkedBlockingQueue is unbounded by default.
             queue.add(new CallableRecord<>(callable, future));
             return future;
         }
@@ -151,6 +159,7 @@ public class Demo17_HandRolledExecutorContrast {
         private void runWorker() {
             while (accepting || !queue.isEmpty()) {
                 try {
+                    // poll(timeout) lets the worker periodically re-check the shutdown flag.
                     CallableRecord<T> record = queue.poll(100, TimeUnit.MILLISECONDS);
                     if (record == null) {
                         continue;

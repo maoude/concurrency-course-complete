@@ -26,14 +26,17 @@ public class Ex1_BoundedBuffer<T> {
     // Important concurrency point: Students should preserve blocking behavior and avoid polling or busy waiting.
     public Ex1_BoundedBuffer(int capacity) {
         // TODO: create a bounded BlockingQueue with this capacity.
+        // A BlockingQueue handles the wait/notify logic internally; do not write your own spin loop.
     }
 
     public void put(T item) throws InterruptedException {
         // TODO: block until space is available, then publish the item.
+        // Use put(), not offer(), when the exercise asks for producer backpressure.
     }
 
     public T take() throws InterruptedException {
         // TODO: block until an item is available.
+        // Use take(), not poll(), when the exercise asks the consumer to wait for work.
         return null;
     }
 

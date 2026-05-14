@@ -28,10 +28,12 @@ public class Ex4_ReadMostlyCache<K, V> {
     // Important concurrency point: Students should separate read-only and mutating operations into the correct lock modes.
     public void put(K key, V value) {
         // TODO: write under the write lock.
+        // Use writeLock() because put mutates the shared map.
     }
 
     public V get(K key) {
         // TODO: read under the read lock.
+        // Use readLock() because get does not mutate the map and can run with other readers.
         return null;
     }
 
@@ -42,6 +44,7 @@ public class Ex4_ReadMostlyCache<K, V> {
 
     public Map<K, V> snapshot() {
         // TODO: return an immutable copy of the current map.
+        // Copy while holding the read lock; otherwise the map may change during the copy.
         return Map.of();
     }
 }

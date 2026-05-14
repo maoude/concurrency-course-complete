@@ -6,14 +6,8 @@
  * Lab Title: Day 1 - java.util.concurrent, Pools, and Backpressure
  * ================================================================
  */
-/*
- * ================================================================
- * Author: Dr. Mohamad Aoude
- * Course: Concurrency & Distributed Systems
- * Week: Week 5
- * Lab Title: Day 1 - java.util.concurrent, Pools, and Backpressure
- * ================================================================
- */
+package edu.lu.concurrency.week5.day1.part4_read_write_lock;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -24,9 +18,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
- * Evidence demo for read-write lock liveness: readers scale, but writers can wait under read pressure.
- */
-/**
  * Measures writer delay under read pressure to discuss fairness and starvation risks.
  */
 public final class Demo18_WriterStarvationReadWriteLock {
@@ -36,26 +27,29 @@ public final class Demo18_WriterStarvationReadWriteLock {
     }
 
     public static Observation observeWriterDelay(boolean fair) throws InterruptedException {
+        // The fairness flag changes how waiting readers/writers are admitted to the lock.
         ReentrantReadWriteLock lock = new ReentrantReadWriteLock(fair);
+        // AtomicBoolean lets all reader tasks observe the stop signal safely.
         AtomicBoolean keepReading = new AtomicBoolean(true);
-        // Concurrency note: Latch coordinates thread start/finish points to make concurrency behavior testable.
+        // CountDownLatch lets the main thread wait until all readers have actually started.
         CountDownLatch readersStarted = new CountDownLatch(3);
-        // Concurrency note: Latch coordinates thread start/finish points to make concurrency behavior testable.
+        // A second latch records whether the writer managed to acquire the write lock.
         CountDownLatch writerDone = new CountDownLatch(1);
+        // Four workers: three readers plus one writer.
         ExecutorService pool = Executors.newFixedThreadPool(4);
         List<Runnable> readers = new ArrayList<>();
 
         for (int i = 0; i < 3; i++) {
             readers.add(() -> {
-                // Concurrency note: countDown() signals one completed participant toward releasing awaiters.
+                // countDown() signals one completed participant toward releasing awaiters.
                 readersStarted.countDown();
                 while (keepReading.get()) {
-                    // Concurrency note: Read lock allows concurrent readers while excluding writers for read-mostly workloads.
+                    // Read lock allows concurrent readers while excluding writers for read-mostly workloads.
                     lock.readLock().lock();
                     try {
                         sleep(2);
                     } finally {
-                        // Concurrency note: Unlock in finally to avoid deadlocks and leaked lock ownership after exceptions.
+                        // Unlock in finally to avoid deadlocks and leaked lock ownership after exceptions.
                         lock.readLock().unlock();
                     }
                 }
@@ -67,15 +61,15 @@ public final class Demo18_WriterStarvationReadWriteLock {
             readersStarted.await(1, TimeUnit.SECONDS);
 
             long start = System.nanoTime();
-            // Concurrency note: Submit schedules work asynchronously onto pool threads instead of running on caller thread.
+            // submit schedules work asynchronously onto pool threads instead of running on caller thread.
             pool.submit(() -> {
-                // Concurrency note: Write lock provides exclusive mutation to preserve map/cache invariants.
+                // Write lock waits until readers release the read lock.
                 lock.writeLock().lock();
                 try {
-                    // Concurrency note: countDown() signals one completed participant toward releasing awaiters.
+                    // If this line runs, the writer was not starved forever.
                     writerDone.countDown();
                 } finally {
-                    // Concurrency note: Unlock in finally to avoid deadlocks and leaked lock ownership after exceptions.
+                    // Unlock in finally to avoid leaking the exclusive write lock.
                     lock.writeLock().unlock();
                 }
             });

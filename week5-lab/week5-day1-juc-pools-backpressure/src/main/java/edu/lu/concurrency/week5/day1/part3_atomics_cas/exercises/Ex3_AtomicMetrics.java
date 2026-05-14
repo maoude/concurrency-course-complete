@@ -26,14 +26,17 @@ public class Ex3_AtomicMetrics {
     // Important concurrency point: Students should use atomic operations so concurrent updates do not lose counts.
     public void recordSuccess() {
         // TODO: atomically record one successful request.
+        // AtomicInteger.incrementAndGet() is the intended operation here.
     }
 
     public void recordFailure() {
         // TODO: atomically record one failed request.
+        // Do not use a plain int here; concurrent ++ operations can lose updates.
     }
 
     public int successes() {
         // TODO: return successful request count.
+        // AtomicInteger.get() gives a visible current value.
         return 0;
     }
 

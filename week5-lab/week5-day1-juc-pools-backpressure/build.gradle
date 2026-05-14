@@ -55,5 +55,5 @@ tasks.register('studentCheck', Test) {
 }
 
 application {
-    mainClass = 'edu.lu.concurrency.week5.day1.part1_blocking_queue.Demo01_UnboundedQueueRisk'
+    mainClass = 'edu.lu.concurrency.week5.day1.Week5DemoRunner'
 }

@@ -15,24 +15,29 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
 /**
  * Shows how a cached thread pool can create workers elastically for short-lived tasks.
  */
 public class Demo15_CachedThreadPool {
     // Important concurrency point: Cached pools trade low latency for potentially high thread growth under bursts.
     public static int workerNamesUsed(int tasks) throws InterruptedException {
+        // A cached pool creates new threads as needed and reuses idle ones; it is not bounded by a fixed size.
         ExecutorService pool = Executors.newCachedThreadPool();
+        // HashSet is not thread-safe, so synchronizedSet wraps access with a monitor.
         Set<String> workerNames = Collections.synchronizedSet(new HashSet<>());
-        // Concurrency note: Latch coordinates timing to make concurrent behavior deterministic in tests.
+        // CountDownLatch lets the main thread wait until every submitted task signals completion.
         CountDownLatch done = new CountDownLatch(tasks);
         try {
             for (int i = 0; i < tasks; i++) {
                 pool.submit(() -> {
+                    // Thread.currentThread() reveals which pool worker is executing this task.
                     workerNames.add(Thread.currentThread().getName());
                     sleep(50);
                     done.countDown();
                 });
             }
+            // await(timeout) prevents the demo from hanging forever if a task fails to count down.
             done.await(2, TimeUnit.SECONDS);
             return workerNames.size();
         } finally {
